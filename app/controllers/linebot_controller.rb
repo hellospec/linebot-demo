@@ -8,12 +8,13 @@ class LinebotController < ApplicationController
     end
     message = params["events"][0]["message"]["text"]
 
-    matches = match_message(message)
-    value = matches[1]
-    ActionCable.server.broadcast("line_chatbot", {value: value})
+    capture = LineMessageCapture.new(message)
+    if capture.valid? and capture.has_all_attributes?
+      ActionCable.server.broadcast("line_chatbot", {value: capture.amount})
+      reply_message("roger that")
 
-    if value.present?
-      reply_message("got x #{value}")
+    else
+      reply_message("#{capture.error}\nPlease try again.")
     end
   end
 end
