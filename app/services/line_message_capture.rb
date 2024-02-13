@@ -15,7 +15,7 @@ class LineMessageCapture
   end
 
   def valid?
-    @error.blank?
+    @error.blank? and has_all_attributes?
   end
 
   def has_all_attributes?
@@ -31,7 +31,6 @@ class LineMessageCapture
       find_sale_channel
     end
   rescue => e
-    puts " !!!"
     @error = e.message
   end
 
