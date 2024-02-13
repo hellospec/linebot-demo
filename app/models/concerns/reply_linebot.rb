@@ -13,16 +13,16 @@ module ReplyLinebot
   def reply_message(message)
     access_token = ENV["LINE_MSG_CHANNEL_TOKEN"]
     conn = Faraday.new(
-      url: 'https://api.line.me/v2/bot/message/reply',
-      headers: {"Content-Type": 'application/json', Authorization: "Bearer #{access_token}"}
+      url: "https://api.line.me/v2/bot/message/reply",
+      headers: {"Content-Type": "application/json", Authorization: "Bearer #{access_token}"}
     )
-    response = conn.post do |req|
+    conn.post do |req|
       req.body = {
         replyToken: params["events"][0]["replyToken"],
         messages: [
           {
             type: "text",
-            text: "#{message}"
+            text: message.to_s
           }
         ]
       }.to_json
