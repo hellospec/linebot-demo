@@ -14,7 +14,7 @@ class LinebotController < ApplicationController
       reply_message("roger that")
 
     else
-      reply_message("#{capture.error}\nPlease try again.")
+      reply_message("#{capture.error}\nPlease try again.") if capture.error.present?
     end
   end
 end
