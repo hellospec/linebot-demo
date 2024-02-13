@@ -1,5 +1,12 @@
 # linebot-demo
 
+## Start development
+1. Start development server
+`$ ./bin/dev`
+
+2. Start Redis server at default port 6379 in another terminal
+`$ redis-server`
+
 ## Requirements
 1. เพิ่ม linebot เข้าไปในห้อง chat ที่มีสมาชิกเดิมอยู่แล้ว
 2. ให้ linebot match ข้อความ และส่งข้อความตอบกลับตามเงื่อนไขดังนี้
