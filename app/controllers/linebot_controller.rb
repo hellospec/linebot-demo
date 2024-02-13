@@ -8,14 +8,12 @@ class LinebotController < ApplicationController
     end
     message = params["events"][0]["message"]["text"]
 
-    value = match_message(message)
-    # TODO:
-    # Boardcast value to line_chatbot channel and then
-    # re-render the value on dashboard
-    # ActionCable.server.broadcast("line_chatbot", {value: value})
+    matches = match_message(message)
+    value = matches[1]
+    ActionCable.server.broadcast("line_chatbot", {value: value})
 
     if value.present?
-      reply_message("got x #{value[1]}")
+      reply_message("got x #{value}")
     end
   end
 end
