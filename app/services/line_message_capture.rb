@@ -1,6 +1,7 @@
 class LineMessageCapture
   attr_reader :message
   attr_reader :amount, :product, :sale_channel, :error
+  attr_accessor :sale_person_line_id
 
   def initialize(message)
     # Validate message format

@@ -15,8 +15,9 @@ class LinebotController < ApplicationController
     text = params["events"][0]["message"]["text"]
 
     capture = LineMessageCapture.new(text)
+    capture.sale_person_line_id = user_id
     if capture.valid?
-      create_sale_record(user_id, capture)
+      create_sale_record(capture)
 
       ActionCable.server.broadcast("line_chatbot", {value: capture.amount})
       reply_message("roger that")
@@ -28,12 +29,12 @@ class LinebotController < ApplicationController
 
   private
 
-  def create_sale_record(user_id, capture)
+  def create_sale_record(capture)
     Sale.create(
-      sale_person_line_id: user_id,
       amount: capture.amount,
       product_code: capture.product,
-      channel_code: capture.sale_channel
+      channel_code: capture.sale_channel,
+      sale_person_line_id: capture.sale_person_line_id
     )
   end
 end
