@@ -14,16 +14,10 @@ if(dashboard != null) {
     },
 
     updateDashboard(data) {
-      let { amount, product, saleChannel, salePersonLineId } = data
-      let value = parseInt(amount)
-      let target = document.getElementById("dashboard-value")
-      if(target != null) {
-        let currentValue = parseInt(target.dataset.value)
-        let newValue = currentValue + value
+      // Update data-dashboard-data-value will invoke Stimulus values callback
+      let dashboard = document.getElementById("dashboard")
+      dashboard.dataset.dashboardDataValue = JSON.stringify(data)
+    },
 
-        target.textContent = newValue
-        target.dataset.value = newValue
-      }
-    }
   })
 }
