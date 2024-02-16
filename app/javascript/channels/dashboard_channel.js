@@ -2,7 +2,6 @@ import consumer from "channels/consumer"
 
 let dashboard = document.getElementById("dashboard")
 if(dashboard != null) {
-  console.log(dashboard)
   consumer.subscriptions.create({channel: "DashboardChannel", room: "line_chatbot"}, {
     initialized() {
     },
@@ -11,18 +10,14 @@ if(dashboard != null) {
     disconnected() {
     },
     received(data) {
-      let v = parseInt(data.value)
-      this.updateDashboardValue(v)
+      this.updateDashboard(data)
     },
 
-    updateDashboardValue(value) {
-      let target = document.getElementById("dashboard-value")
-      if(target != null) {
-        let currentValue = parseInt(target.dataset.value)
-        let newValue = currentValue + value
-        target.textContent = newValue
-        target.dataset.value = newValue
-      }
-    }
+    updateDashboard(data) {
+      // Update data-dashboard-data-value will invoke Stimulus values callback
+      let dashboard = document.getElementById("dashboard")
+      dashboard.dataset.dashboardDataValue = JSON.stringify(data)
+    },
+
   })
 }

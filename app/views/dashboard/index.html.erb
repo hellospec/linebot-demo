@@ -1,6 +1,33 @@
-<section id="dashboard" class="p-4 max-w-[720px] mx-auto">
-  <div class="text-gray-700 text-center">
-    <div class="mb-4">Value</div>
-    <div id="dashboard-value" class="font-bold text-5xl" data-value="0">0</div>
+<section id="dashboard"
+  class="p-4 max-w-[720px] mx-auto"
+  data-controller="dashboard"
+  data-dashboard-data-value="<%= @data.to_json %>">
+  <div class="text-gray-700 text-center mb-16">
+    <div class="mb-4">Total Amount</div>
+    <div id="dashboard-value"
+      class="font-bold text-5xl" 
+      data-dashboard-target="totalAmount">
+      <%= @total_amount %>
+    </div>
   </div>
+
+  <div class="grid grid-cols-2">
+    <div data-dashboard-target="productAmount">
+      <% @amount_by_product.each do |product, amount| %>
+        <div id="amount-<%= product %>" class="mb-8 text-center" data-amount="<%= amount %>"> 
+          <div class="mb-2"><%= product %></div>
+          <div class="amount text-2xl font-bold"><%= amount %></div>
+        </div>
+      <% end %>
+    </div>
+    <div data-dashboard-target="channelAmount">
+      <% @amount_by_channel.each do |ch, amount| %>
+        <div id="amount-<%= ch %>" class="mb-8 text-center" data-amount="<%= amount %>"> 
+          <div class="mb-2"><%= ch %></div>
+          <div class="amount text-2xl font-bold"><%= amount %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
 </section>
