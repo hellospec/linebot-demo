@@ -18,8 +18,8 @@ class LinebotController < ApplicationController
     capture.sale_person_line_id = user_id
     if capture.valid?
       create_sale_record(capture)
+      broadcast_to_dashboard(capture)
 
-      ActionCable.server.broadcast("line_chatbot", {value: capture.amount})
       reply_message("roger that")
 
     else
@@ -35,6 +35,18 @@ class LinebotController < ApplicationController
       product_code: capture.product,
       channel_code: capture.sale_channel,
       sale_person_line_id: capture.sale_person_line_id
+    )
+  end
+
+  def broadcast_to_dashboard(capture)
+    ActionCable.server.broadcast(
+      "line_chatbot",
+      {
+        amount: capture.amount,
+        product: capture.product,
+        saleChannel: capture.sale_channel,
+        salePersonLineId: capture.sale_person_line_id
+      }
     )
   end
 end
