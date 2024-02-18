@@ -6,71 +6,67 @@ image: hellospec/linebot-demo
 
 # Deploy to these servers.
 servers:
-  - linode-dashboard-demo
+  web:
+    hosts:
+      - linode-dashboard-demo
+    labels:
+      traefik.http.routers.linebot-demo.rule: Host(`dashboard-demo.hellospec.work`)
+      traefik.http.routers.linebot-demo.tls: false
+
+    options:
+      network: "my-private"
 
 # Credentials for your image host.
 registry:
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  # server: ghcr.io
   username: hellospec
   password: 
     - KAMAL_REGISTRY_PASSWORD
 
-# Inject ENV variables into containers (secrets come from .env).
-# Remember to run `kamal env push` after making changes!
-# env:
-#   clear:
-#     DB_HOST: 192.168.0.2
-#   secret:
-#     - RAILS_MASTER_KEY
 env:
+  # clear:
+    # - DATABASE_URL
+    # - REDIS_URL 
   secret:
+    - RAILS_MASTER_KEY
     - LINEBOT_DEMO_DATABASE_PASSWORD
     - LINE_MSG_CHANNEL_TOKEN
+    - DATABASE_URL
 
-# Use a different ssh user than root
-# ssh:
-#   user: deploy
+accessories:
+  db:
+    image: postgres:15.5
+    host: linode-dashboard-demo
+    port: 5432
+    env:
+      clear:
+        POSTGRES_USER: "postgres"
+        POSTGRES_DB: "linebot_demo_production"
+      secret:
+        - POSTGRES_PASSWORD
+    files:
+      - config/init.sql:/docker-entrypoint-initdb.d/setup.sql
+    directories:
+      - data:/var/lib/postgresql/data
+    options:
+      network: "my-private"
 
-# Configure builder setup.
-# builder:
-#   args:
-#     RUBY_VERSION: 3.2.0
-#   secrets:
-#     - GITHUB_TOKEN
-#   remote:
-#     arch: amd64
-#     host: ssh://app@192.168.0.1
+  redis:
+    image: redis:7.0
+    roles:
+      - web
+    cmd: "redis-server"
+    directories:
+      - data:/data
+    options:
+      network: "my-private"
 
-# Use accessory services (secrets come from .env).
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     port: 3306
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
-#   redis:
-#     image: redis:7.0
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data
-
-# Configure custom arguments for Traefik
-# traefik:
-#   args:
-#     accesslog: true
-#     accesslog.format: json
+traefik:
+  labels:
+    traefik.http.routers.linebot-demo.tls: false
+  options:
+    network: "my-private"
 
 # Configure a custom healthcheck (default is /up on port 3000)
 # healthcheck:

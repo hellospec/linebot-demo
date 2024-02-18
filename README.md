@@ -14,7 +14,7 @@ $ redis-server
 ### Route message from line chatbot to the Rails app
 3. Assume you have [ngrok](https://ngrok.com/). We need to use it to proxy our development server for Line messaging webhook. Run following command in a separated terminal
 ```
-$ ngrok http 5050
+$ ngrok http 3000
 ```
 
 4. Assume you are able to access Line developer console for this project, go to Line Official Account manager page, then go to Settings > Messaging API then paste the ngrok proxy URL to  Webhook URL input. The value should be something like `https://some-token.ngrok-free.app/linebot` 
