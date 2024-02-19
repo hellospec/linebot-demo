@@ -4,18 +4,6 @@ service: linebot-demo
 # Name of the container image.
 image: hellospec/linebot-demo
 
-# Deploy to these servers.
-servers:
-  web:
-    hosts:
-      - linode-dashboard-demo
-    labels:
-      traefik.http.routers.linebot-demo.rule: Host(`dashboard-demo.hellospec.work`)
-      traefik.http.routers.linebot-demo.tls: false
-
-    options:
-      network: "my-private"
-
 # Credentials for your image host.
 registry:
   # Specify the registry server, if you're not using Docker Hub
@@ -33,6 +21,55 @@ env:
     - LINEBOT_DEMO_DATABASE_PASSWORD
     - LINE_MSG_CHANNEL_TOKEN
     - DATABASE_URL
+    - REDIS_URL
+
+# Deploy to these servers.
+servers:
+  web:
+    hosts:
+      - linode-dashboard-demo
+    labels:
+      traefik.http.routers.linebot-demo.entrypoints: websecure
+      traefik.http.routers.linebot-demo.rule: Host(`dashboard-demo.hellospec.work`)
+      traefik.http.routers.linebot-demo.tls.certResolver: letsencrypt
+
+        # traefik.http.routers.linebot-demo.rule: Host(`dashboard-demo.hellospec.work`) || Host(`*.dashboard-demo.hellospec.work`)
+        # traefik.http.routers.linebot-demo_secure.entrypoints: websecure
+        # traefik.http.routers.linebot-demo_secure.rule: Host(`dashboard-demo.hellospec.work`)
+        # traefik.http.routers.linebot-demo_secure.tls: true
+        # traefik.http.routers.linebot-demo_secure.tls.certresolver: letsencrypt
+
+    options:
+      network: "my-private"
+
+traefik:
+  labels:
+    traefik.http.routers.linebot-demo.tls: false
+  options:
+    publish:
+      - "443:443"
+    volume:
+      - "/letsencrypt/acme.json:/letsencrypt/acme.json"
+    network: "my-private"
+  args:
+    # entryPoints.web.address: ":80"
+    # entryPoints.websecure.address: ":443"
+      # entryPoints.web.http.redirections.entryPoint.to: websecure
+      # entryPoints.web.http.redirections.entryPoint.scheme: https
+      # certificatesResolvers.letsencrypt.acme.email: "worrawutp@hellospec.com"
+      # certificatesResolvers.letsencrypt.acme.storage: "/letsencrypt/acme.json"
+      # certificatesResolvers.letsencrypt.acme.httpchallenge: true
+      # certificatesResolvers.letsencrypt.acme.httpchallenge.entrypoint: web
+
+    entryPoints.web.address: ":80"
+    entryPoints.websecure.address: ":443"
+    entryPoints.web.http.redirections.entryPoint.to: websecure
+    entryPoints.web.http.redirections.entryPoint.scheme: https
+    entryPoints.web.http.redirections.entrypoint.permanent: true
+    certificatesResolvers.letsencrypt.acme.email: "worrawutp@hellospec.com"
+    certificatesResolvers.letsencrypt.acme.storage: "/letsencrypt/acme.json"
+    certificatesResolvers.letsencrypt.acme.httpchallenge: true
+    certificatesResolvers.letsencrypt.acme.httpchallenge.entrypoint: web
 
 accessories:
   db:
@@ -54,19 +91,12 @@ accessories:
 
   redis:
     image: redis:7.0
-    roles:
-      - web
+    host: linode-dashboard-demo
     cmd: "redis-server"
     directories:
       - data:/data
     options:
       network: "my-private"
-
-traefik:
-  labels:
-    traefik.http.routers.linebot-demo.tls: false
-  options:
-    network: "my-private"
 
 # Configure a custom healthcheck (default is /up on port 3000)
 # healthcheck:
