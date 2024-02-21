@@ -12,6 +12,10 @@
   </head>
 
   <body>
+    <% if current_user.present? %>
+      <%= render partial: "layouts/header" %>
+    <% end %>
+
     <main>
       <%= yield %>
     </main>

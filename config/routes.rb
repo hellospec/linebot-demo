@@ -14,5 +14,5 @@ Rails.application.routes.draw do
   resource :dashboard
 
   # Defines the root path route ("/")
-  root "dashboard#index"
+  root "dashboard#show"
 end

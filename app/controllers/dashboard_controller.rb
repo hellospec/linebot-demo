@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  def index
+  def show
     @data = Sale.dashboard_data
     @total_amount = @data[:total_amount]
     @amount_by_product = @data[:amount_by_product]
