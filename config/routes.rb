@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users, path: "authen", controllers: {
-    sessions: "users/sessions",
-    registrations: "users/registrations"
+  devise_for :users, skip: [:registrations], path: "authen", controllers: {
+    sessions: "users/sessions"
   }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
