@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_for :users, skip: [:registrations], path: "authen", controllers: {
+    sessions: "users/sessions"
+  }
+
+  namespace :admin do
+    get "/", to: "admin_panel#show"
+  end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -9,6 +15,9 @@ Rails.application.routes.draw do
   resources :fake_inputs
   resource :dashboard
 
-  # Defines the root path route ("/")
-  root "dashboard#index"
+
+  authenticated :user, -> (u) { u.admin? } do
+    root to: "admin/admin_panel#show", as: :authenticated_admin
+  end
+  root "dashboard#show"
 end
