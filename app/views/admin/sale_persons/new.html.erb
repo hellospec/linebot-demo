@@ -1,0 +1,15 @@
+<section id="new-sale-person">
+  <h1 class="mb-2">Create New Sale Person</h1>
+  <%= form_with model: @sale_person, url: admin_sale_persons_path, method: "POST" do |form| %>
+    <div class="field mb-4">
+      <%= form.label :email, class: "block text-sm text-gray-400" %>
+      <%= form.email_field :email %>
+    </div>
+
+    <div class="field mb-4">
+      <%= form.submit value: "Create", class: "bg-gray-800 text-white px-4 py-2 cursor-pointer" %>
+    </div>
+
+    <div id="error-message"></div>
+  <% end %>
+</section>

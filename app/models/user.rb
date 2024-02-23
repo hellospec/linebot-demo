@@ -5,4 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: {user: "user", admin: "admin"}
+
+  validates :email, uniqueness: true
+
+  scope :users, -> { where(role: "user") }
 end
