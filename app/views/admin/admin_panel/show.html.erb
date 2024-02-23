@@ -1,3 +1,23 @@
-<section id="admin-panel">
-  <h1>Admin panel</h1>
+<section id="admin-panel" class="p-4">
+  <h1 class="font-bold text-2xl text-gray-800 text-center mb-4">Admin panel</h1>
+
+  <div id="sales" class="mb-4 p-4 rounded-md drop-shadow bg-gray-50">
+    <h2 class="font-semibold text-gray-700 mb-4">Sales</h2>
+    <div class="text-[14.5px]">
+      <header class="grid grid-cols-[180px_80px_100px_50px] mb-2 pb-2 border-b text-gray-600">
+        <div>Created</div>
+        <div>Amount</div>
+        <div>Product</div>
+        <div title="fb=Facebook, line=Line">Channel</div>
+      </header>
+      <% @sales.each do |s| %>
+        <div class="grid grid-cols-[180px_80px_100px_50px] mb-1">
+          <div><%= s.created_at.strftime("%F %R") %></div>
+          <div><%= s.amount %></div>
+          <div><%= s.product_code %></div>
+          <div><%= s.channel_code %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </section>
