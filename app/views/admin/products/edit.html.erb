@@ -1,0 +1,6 @@
+<section id="edit-product">
+  <h1 class="mb-2">Edit Product</h1>
+  <%= form_with model: @product, url: admin_product_path(@product), method: "PATCH" do |form| %>
+    <%= render partial: "admin/products/form", locals: {form: form} %>
+  <% end %>
+</section>

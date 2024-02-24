@@ -1,0 +1,6 @@
+<section id="new-product">
+  <h1 class="mb-2">Create New Product</h1>
+  <%= form_with model: Product.new, url: admin_products_path, method: "POST" do |form| %>
+    <%= render partial: "admin/products/form", locals: {form: form} %>
+  <% end %>
+</section>
