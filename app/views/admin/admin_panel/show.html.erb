@@ -26,14 +26,16 @@
     </div>
 
     <div class="text-[14.5px]">
-      <header class="grid grid-cols-[200px_200px] mb-2 pb-2 border-b text-gray-600">
+      <header class="grid grid-cols-[200px_200px_80px] mb-2 pb-2 border-b text-gray-600">
         <div>Product code</div>
         <div>Name</div>
+        <div></div>
       </header>
       <% Product.all.each do |p| %>
-        <div class="grid grid-cols-[200px_200px] mb-1">
+        <div class="grid grid-cols-[200px_200px_80px] mb-1">
           <div><%= p.code %></div>
           <div><%= p.name %></div>
+          <div><%= link_to "Edit", edit_admin_product_path(p) %></div>
         </div>
       <% end %>
     </div>
