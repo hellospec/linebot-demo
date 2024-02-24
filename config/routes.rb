@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "/", to: "admin_panel#show"
 
     resources :sale_persons
+    resources :products
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
