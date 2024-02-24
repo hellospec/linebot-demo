@@ -13,7 +13,11 @@ class Admin::SalePersonsController < ApplicationController
       redirect_to admin_path, status: :see_other
     else
       render turbo_stream: [
-        turbo_stream.replace("error-message", partial: "admin/sale_persons/error_message")
+        turbo_stream.replace(
+          "error-message",
+          partial: "admin/error_message",
+          locals: {object: @sale_person}
+        )
       ]
     end
   end
