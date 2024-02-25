@@ -12,13 +12,13 @@ class SaleOrdersController < ApplicationController
       capture.broadcast_to_dashboard
       redirect_to root_path, status: :see_other
     else
-      # render turbo_stream: [
-      #   turbo_stream.replace(
-      #     "error-message",
-      #     partial: "error/error_message",
-      #     locals: {object: capture}
-      #   )
-      # ]
+      render turbo_stream: [
+        turbo_stream.replace(
+          "error-message",
+          partial: "sale_orders/error_message",
+          locals: {object: capture}
+        )
+      ]
     end
   end
 
@@ -43,7 +43,6 @@ class SaleOrdersController < ApplicationController
   end
 
   def match_with_line_id
-    debugger
     line_user_id = params[:sale][:line_user_id]
     return false if line_user_id.blank?
 
