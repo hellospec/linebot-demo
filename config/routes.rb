@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :linebot
 
   resources :fake_inputs
+  resources :sale_orders
   resource :dashboard
 
 

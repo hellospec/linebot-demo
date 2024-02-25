@@ -2,7 +2,7 @@ import consumer from "channels/consumer"
 
 let dashboard = document.getElementById("dashboard")
 if(dashboard != null) {
-  consumer.subscriptions.create({channel: "DashboardChannel", room: "line_chatbot"}, {
+  consumer.subscriptions.create({channel: "DashboardChannel", room: "dashboard"}, {
     initialized() {
     },
     connected() {

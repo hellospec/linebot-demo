@@ -44,12 +44,6 @@ class LinebotController < ApplicationController
     ActionCable.server.broadcast(
       "line_chatbot",
       data
-      # {
-      #   amount: capture.amount,
-      #   product: capture.product,
-      #   saleChannel: capture.sale_channel,
-      #   salePersonLineId: capture.sale_person_line_id
-      # }
     )
   end
 end
