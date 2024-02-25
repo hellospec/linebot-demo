@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "/", to: "admin_panel#show"
 
     resources :sale_persons
+    resources :sale_person_invitations
     resources :products
   end
 
