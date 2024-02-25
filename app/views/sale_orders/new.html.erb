@@ -1,0 +1,27 @@
+<section id="web-form" class="p-4">
+  <h1 class="text-2xl font-semibold mb-4">Sale order</h1>
+  <%= form_with model: Sale.new, url: sale_orders_path, method: :post do |form| %>
+    <div class="field mb-4">
+      <%= form.label :product_code, class: "block text-sm text-gray-500 mb-1" %>
+      <%= form.select :product_code, Product.all.pluck(:code).uniq %>
+    </div>
+
+    <div class="field mb-4">
+      <%= form.label :channel_code, class: "block text-sm text-gray-500 mb-1" %>
+      <%= form.select :channel_code, [["line", "line"], ["facebook", "fb"]] %>
+    </div>
+
+    <div class="field mb-4">
+      <%= form.label :amount, class: "block text-sm text-gray-500 mb-1" %>
+      <%= form.number_field :amount, required: "required" %>
+    </div>
+
+    <div>
+      <input type="hidden" id="sale_person_line_id">
+    </div>
+
+    <div class="field">
+      <%= form.submit "Submit", class: "px-4 py-2 bg-gray-800 text-white cursor-pointer" %>
+    </div>
+  <% end %>
+</section>
