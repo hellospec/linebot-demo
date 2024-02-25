@@ -32,9 +32,7 @@ class WebMessageCapture
     if valid?
       # TODO
       # This broadcast should be handle by a background job
-      #
-      puts "\nwill broadcast to dashbard channel"
-      # ActionCable.server.broadcast("line_chatbot", {value: value})
+      ActionCable.server.broadcast("dashboard", Sale.dashboard_data)
     end
   end
 end
