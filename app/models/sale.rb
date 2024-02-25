@@ -1,4 +1,6 @@
 class Sale < ApplicationRecord
+  belongs_to :user
+
   scope :total_amount, -> { sum(:amount) }
   scope :dashboard_data, -> {
     {
@@ -7,4 +9,6 @@ class Sale < ApplicationRecord
       amount_by_channel: Sale.group(:channel_code).sum(:amount)
     }
   }
+
+  validates :amount, numericality: { only_integer: true, greater_than: 0 }
 end

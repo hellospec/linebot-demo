@@ -6,7 +6,10 @@ class User < ApplicationRecord
 
   enum role: {user: "user", admin: "admin"}
 
+  has_many :sales
+
   validates :email, uniqueness: true
 
   scope :users, -> { where(role: "user") }
+
 end
