@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "/", to: "admin_panel#show"
 
     resources :sale_persons
+    resources :sale_person_invitations
     resources :products
   end
 
@@ -17,6 +18,9 @@ Rails.application.routes.draw do
 
   resources :fake_inputs
   resources :sale_orders
+  resources :sale_persons, only: [:new, :create] do
+    get "line_login", on: :collection
+  end
   resource :dashboard
 
 

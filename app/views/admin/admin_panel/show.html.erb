@@ -7,6 +7,11 @@
       <%= link_to "Create", new_admin_sale_person_path, class: "underline text-sm" %>
     </div>
 
+    <div class="mb-4">
+      <%= link_to "Create invite link", admin_sale_person_invitations_path, data: {turbo_method: :post}, class: "block underline mb-4" %>
+      <div id="invitation-link"></div>
+    </div>
+
     <div class="text-[14.5px]">
       <header class="mb-2 pb-2 border-b text-gray-600">
         <div>Email</div>
