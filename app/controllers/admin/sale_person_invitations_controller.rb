@@ -3,6 +3,6 @@ class Admin::SalePersonInvitationsController < ApplicationController
 
   def create
     invitation = SalePersonInvitation.create!
-    @url = "#{ENV['APP_HOST']}:#{ENV['APP_PORT']}/sale_persons/new?invitation_code=#{invitation.code}"
+    @url = "#{ENV['APP_HOST']}:#{ENV['APP_PORT']}/sale_persons/line_login?invitation_code=#{invitation.code}"
   end
 end

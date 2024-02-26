@@ -3,3 +3,5 @@ import "@hotwired/turbo-rails"
 import "@rails/actioncable"
 import "controllers"
 import "channels"
+
+import "./src/sale_registration.js"

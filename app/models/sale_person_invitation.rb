@@ -4,8 +4,12 @@ class SalePersonInvitation < ApplicationRecord
 
   enum status: {fresh: "fresh", used: "used"}
 
+  def expired?
+    expires_at < Date.today
+  end
+
   private
- 
+
   def generate_code
     self.code = SecureRandom.base36
   end
