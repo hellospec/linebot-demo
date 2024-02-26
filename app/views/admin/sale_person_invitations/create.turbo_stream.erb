@@ -1,8 +1,27 @@
 <turbo-stream action="replace" target="invitation-link">
   <template>
-    <div id="invitation-link">
-      <%= @url %>
+  <div id="invitation-link" style="
+    font-family: monospace;
+    color: #454545;
+    background: white;
+    padding: 4px 4px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  ">
+      <div id="invite-url"><%= @url %></div>
+      <button onclick="copyUrl()" title="Copy link to clipboard">
+        <svg viewBox="-21 -21 682.66669 682.66669" height="16pt" width="16pt" xmlns="http://www.w3.org/2000/svg"><path fill="#A0A0A0" d="m565 640h-340c-41.359375 0-75-33.640625-75-75v-340c0-41.359375 33.640625-75 75-75h340c41.359375 0 75 33.640625 75 75v340c0 41.359375-33.640625 75-75 75zm-340-440c-13.785156 0-25 11.214844-25 25v340c0 13.785156 11.214844 25 25 25h340c13.785156 0 25-11.214844 25-25v-340c0-13.785156-11.214844-25-25-25zm-125 240h-25c-13.785156 0-25-11.214844-25-25v-340c0-13.785156 11.214844-25 25-25h340c13.785156 0 25 11.214844 25 25v23.75h50v-23.75c0-41.359375-33.640625-75-75-75h-340c-41.359375 0-75 33.640625-75 75v340c0 41.359375 33.640625 75 75 75h25zm0 0"/></svg>
+      </button>
     </div>
+
+    <script>
+      function copyUrl() {
+        let url = document.getElementById("invite-url")
+        navigator.clipboard.writeText(url.textContent)
+      }
+    </script>
   </template>
 </turbo-stream>
 
