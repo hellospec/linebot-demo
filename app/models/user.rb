@@ -4,12 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum role: {user: "user", admin: "admin"}
+  enum role: {user: "user", admin: "admin", api: "api"}
 
   has_many :sales
 
   validates :email, uniqueness: true
 
-  scope :users, -> { where(role: "user") }
+  scope :users, -> { where.not(role: "admin") }
 
 end
