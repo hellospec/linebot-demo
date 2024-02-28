@@ -11,4 +11,6 @@ class Sale < ApplicationRecord
   }
 
   validates :amount, numericality: { only_integer: true, greater_than: 0 }
+  validates :product_code, presence: true
+  validates :channel_code, presence: true
 end

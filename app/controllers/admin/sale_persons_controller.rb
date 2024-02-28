@@ -6,8 +6,9 @@ class Admin::SalePersonsController < ApplicationController
   def create
     @sale_person = User.new(
       email: params[:user][:email],
-      password: "password",
-      password_confirmation: "password"
+      password: params[:user][:password],
+      password_confirmation: params[:user][:password],
+      role: params[:user][:role]
     )
     if @sale_person.save
       redirect_to admin_path, status: :see_other

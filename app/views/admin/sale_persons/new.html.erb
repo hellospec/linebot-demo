@@ -7,6 +7,16 @@
     </div>
 
     <div class="field mb-4">
+      <%= form.label :password, class: "block text-sm text-gray-400" %>
+      <%= form.password_field :password %>
+    </div>
+
+    <div class="field mb-4">
+      <%= form.label :role, class: "block text-sm text-gray-400" %>
+      <%= form.select :role, ["user", "api"] %>
+    </div>
+
+    <div class="field mb-4">
       <%= form.submit value: "Create", class: "bg-gray-800 text-white px-4 py-2 cursor-pointer" %>
     </div>
 

@@ -13,12 +13,20 @@
     </div>
 
     <div class="text-[14.5px]">
-      <header class="mb-2 pb-2 border-b text-gray-600">
+      <header class="mb-2 pb-2 border-b text-gray-600 grid grid-cols-[200px_220px_80px]">
         <div>Email</div>
+        <div>Line name</div>
+        <div>Line photo</div>
       </header>
       <% User.users.each do |u| %>
-        <div class="mb-1">
+        <div class="mb-1 grid grid-cols-[200px_220px_80px]">
           <div><%= u.email %></div>
+          <div><%= u.line_display_name %></div>
+          <% if u.line_picture_url %>
+            <img src="<%= u.line_picture_url %>" alt="<%= u.line_display_name %>" width="26px" height="26px" style="border-radius:99px;" />
+          <% else %>
+            <div></div>
+          <% end %>
         </div>
       <% end %>
     </div>
