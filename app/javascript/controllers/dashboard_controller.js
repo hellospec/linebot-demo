@@ -1,34 +1,36 @@
 import { Controller } from "@hotwired/stimulus"
 
+import * as echarts from "echarts"
+import {initMyChart, myChartOption} from "../src/charts/my_chart"
+
 export default class DashboardController extends Controller {
-  static targets = ["totalAmount", "productAmount", "channelAmount"]
+  static targets = ["totalAmount", "productAmount", "channelAmount", "myChart"]
   static values = { 
     data: Object 
+  }
+
+  connect() {
   }
 
   // Values callback
   dataValueChanged(data, previousData) {
     this.updateTotalAmount(data.total_amount)
-    this.updateAmountFor("product", data.amount_by_product)
-    this.updateAmountFor("channel", data.amount_by_channel)
+    this.renderChart()
+  }
+
+  chartOption() {
+    let data = this.dataValue.amount_by_product
+    return myChartOption(data)
+  }
+
+  renderChart() {
+    let option = this.chartOption()
+    let pie = initMyChart("my-chart")
+    pie.setOption(option)
   }
 
   updateTotalAmount(totalAmount) {
     this.totalAmountTarget.textContent = totalAmount
-  }
-
-  updateAmountFor(name, amounts) {
-    Object.keys(amounts).forEach(k => {
-      let newValue = parseInt(amounts[k])
-      let targetName = name + "AmountTarget"
-
-      let target = this[targetName].querySelector(`#amount-${k}`)
-      if(target.dataset.amount != newValue) {
-        target.dataset.amount = newValue
-        target.querySelector(".amount").textContent = newValue
-        target.querySelector(".amount").classList.add("text-blue-500")
-      }
-    })
   }
 }
 
