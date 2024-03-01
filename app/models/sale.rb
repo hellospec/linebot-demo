@@ -8,9 +8,11 @@ class Sale < ApplicationRecord
   scope :total_amount, -> { sum(:amount) }
   scope :dashboard_data, -> {
     {
+      total_order: Sale.count,
       total_amount: total_amount,
       amount_by_product: sum_amount_of(:product_code),
-      amount_by_channel: sum_amount_of(:channel_code)
+      amount_by_channel: sum_amount_of(:channel_code),
+      amount_product_channel: amount_by_product_channel
     }
   }
 
@@ -22,6 +24,14 @@ class Sale < ApplicationRecord
       data.map do |k,v|
         {product: k, amount: v}
       end
+    end
+
+    def amount_by_product_channel
+      Sale.group(:product_code, :channel_code).sum(:amount)
+        .each_with_object({}) do |((product, channel), amount), item|
+          item[product.to_sym] ||= {}
+          item[product.to_sym][channel.to_sym] = amount
+        end
     end
   end
 end
