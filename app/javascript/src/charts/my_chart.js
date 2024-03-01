@@ -9,6 +9,12 @@ export function myChartOption(data) {
   let totalAmount = data.reduce((acc, item) => acc + item.amount, 0)
 
   return {
+    title: {
+      top: -5,
+      left: 'center',
+      text: 'ภาพรวมยอดขาย',
+      subtext: `ยอดขายทั้งหมด ${totalAmount} บาท`,
+    },
     dataset: { source: data },
     series: [
       {

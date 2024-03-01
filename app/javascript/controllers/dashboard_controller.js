@@ -4,7 +4,7 @@ import * as echarts from "echarts"
 import {initMyChart, myChartOption} from "../src/charts/my_chart"
 
 export default class DashboardController extends Controller {
-  static targets = ["totalAmount", "productAmount", "channelAmount", "myChart"]
+  static targets = ["totalAmount", "totalOrder", "avrgTotalAmount", "myChart"]
   static values = { 
     data: Object 
   }
@@ -15,6 +15,8 @@ export default class DashboardController extends Controller {
   // Values callback
   dataValueChanged(data, previousData) {
     this.updateTotalAmount(data.total_amount)
+    this.updateTotalOrder(data.total_order)
+    this.updateAvrgTotalAmount(data.avrg_total_amount)
     this.renderChart()
   }
 
@@ -29,8 +31,19 @@ export default class DashboardController extends Controller {
     pie.setOption(option)
   }
 
-  updateTotalAmount(totalAmount) {
-    this.totalAmountTarget.textContent = totalAmount
+  updateTotalAmount(value) {
+    let cardValue = this.totalAmountTarget.querySelector(".card-value")
+    cardValue.textContent = value
+  }
+
+  updateTotalOrder(value) {
+    let cardValue = this.totalOrderTarget.querySelector(".card-value")
+    cardValue.textContent = value
+  }
+
+  updateAvrgTotalAmount(value) {
+    let cardValue = this.avrgTotalAmountTarget.querySelector(".card-value")
+    cardValue.textContent = value
   }
 }
 

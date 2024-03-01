@@ -7,9 +7,11 @@ class Sale < ApplicationRecord
 
   scope :total_amount, -> { sum(:amount) }
   scope :dashboard_data, -> {
+    total_order = Sale.count
     {
-      total_order: Sale.count,
+      total_order: total_order,
       total_amount: total_amount,
+      avrg_total_amount: (total_amount.to_f/total_order).round(2),
       amount_by_product: sum_amount_of(:product_code),
       amount_by_channel: sum_amount_of(:channel_code),
       amount_product_channel: amount_by_product_channel

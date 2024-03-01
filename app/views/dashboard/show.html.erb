@@ -2,18 +2,31 @@
   class="p-4 max-w-[720px] mx-auto"
   data-controller="dashboard"
   data-dashboard-data-value="<%= @data.to_json %>">
-  <div class="text-gray-700 text-center mb-16">
-    <div class="mb-4">Total Amount</div>
-    <div id="dashboard-value"
-      class="font-bold text-5xl" 
-      data-dashboard-target="totalAmount">
-      <%= @total_amount %>
+
+  <div class="px-8 py-4 bg-[#F9FBF6] rounded-lg mb-6">
+    <div class="grid grid-cols-3 gap-x-8 max-w-[920px]"> 
+      <%= render partial: "dashboard/summary_card", locals: {
+        target: "totalAmount", title: "ยอดขายรวมทั้งหมด", value: @data[:total_amount], unit: "บาท"
+      } %>
+      <%= render partial: "dashboard/summary_card", locals: {
+        target: "totalOrder", title: "จำนวนคำสั่งซื้อทั้งหมด", value: @data[:total_order], unit: "รายการ" 
+      } %>
+      <%= render partial: "dashboard/summary_card", locals: {
+        target: "avrgTotalAmount", title: "ยอดเฉลี่ยต่อรายการ", value: @data[:avrg_total_amount], unit: "บาท" 
+      } %>
+    </div>
+  </div> <!-- summary cards -->
+
+  <div class="chart-wrapper">
+  <!--
+    <h2 class="text-center text-semibold">ภาพรวมยอดขาย</h2>
+    <h3 class="text-center text-[14.5px]">ยอดขายทั้งหมด <%= @data[:total_amount] %> บาท</h3>
+  -->
+    <div id="my-chart" 
+      data-dashboard-target="myChart"
+      class="my-4 w-[500px] h-[370px]">
     </div>
   </div>
-
-  <div id="my-chart" 
-    data-dashboard-target="myChart"
-    class="my-4 w-[400px] h-[300px]"></div>
 
   <div class="grid grid-cols-2">
     <div data-dashboard-target="productAmount">
