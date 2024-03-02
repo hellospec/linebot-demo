@@ -1,5 +1,5 @@
 <section id="dashboard"
-  class="p-4 max-w-[720px] mx-auto"
+  class="p-4 mx-auto"
   data-controller="dashboard"
   data-dashboard-data-value="<%= @data.to_json %>">
 
@@ -17,28 +17,27 @@
     </div>
   </div> <!-- summary cards -->
 
-  <div class="chart-wrapper">
+  <div class="grid grid-cols-[500px_1fr] gap-x-4">
     <div id="my-chart" 
       data-dashboard-target="myChart"
       class="my-4 w-[500px] h-[370px]">
     </div>
-  </div>
 
-  <div class="grid grid-cols-2">
-    <div data-dashboard-target="productAmount">
-      <% @amount_by_product.each do |product, amount| %>
-        <div id="amount-<%= product %>" class="mb-8 text-center" data-amount="<%= amount %>"> 
-          <div class="mb-2"><%= product %></div>
-          <div class="amount text-2xl font-bold"><%= amount %></div>
+    <div class="data-table mt-[60px] font-kanit text-[15px] font-light">
+      <% @data[:amount_product_channel].each do |product, item| %>
+      <div class="mb-3 pb-3">
+        <h3 class="font-semibold text-[17px] text-gray-700"><%= product %></h3>
+        <% item.each do |ch, val| %>
+          <div class="grid grid-cols-[200px_120px] border-b border-gray-300 mb-1 pb-1">
+            <div>ยอดขายจาก <%= ch %></div>
+            <div><%= val %></div>
+          </div>
+        <% end %>
+        <div class="grid grid-cols-[200px_120px] border-b-2 border-gray-800 mb-1 pb-1">
+          <div>ยอดรวม <%= product %></div>
+          <div><%= @data[:amount_by_product].find { |a| a[:product] == product.to_s }[:amount] %></div>
         </div>
-      <% end %>
-    </div>
-    <div data-dashboard-target="channelAmount">
-      <% @amount_by_channel.each do |ch, amount| %>
-        <div id="amount-<%= ch %>" class="mb-8 text-center" data-amount="<%= amount %>"> 
-          <div class="mb-2"><%= ch %></div>
-          <div class="amount text-2xl font-bold"><%= amount %></div>
-        </div>
+      </div>
       <% end %>
     </div>
   </div>
