@@ -13,12 +13,24 @@ export function myChartOption(data) {
       top: -5,
       left: 'center',
       text: 'ภาพรวมยอดขาย',
-      subtext: `ยอดขายทั้งหมด ${totalAmount} บาท`,
+      subtext: [`ยอดขายทั้งหมด`,`{amount|${totalAmount}}`,`บาท`].join(" "),
+      textStyle: {
+        fontFamily: 'Kanit'
+      },
+      subtextStyle: {
+        fontFamily: 'Kanit',
+        fontSize: 14,
+        color: "#718355",
+        rich: {
+          "amount": {fontSize: 16, fontWeight: 700, verticalAlign: 'bottom'}
+        }
+      }
     },
     dataset: { source: data },
     series: [
       {
         type: 'pie',
+        top: 25,
         color: colorPalette,
         label: { 
           show: true,
@@ -37,6 +49,7 @@ export function myChartOption(data) {
       },
       {
         type: 'pie',
+        top: 25,
         label: {
           show: true,
           position: 'inside',

@@ -3,7 +3,7 @@
   data-controller="dashboard"
   data-dashboard-data-value="<%= @data.to_json %>">
 
-  <div class="px-8 py-4 bg-[#F9FBF6] rounded-lg mb-6">
+  <div class="px-8 py-4 bg-[#F9FBF6] rounded-lg mb-16">
     <div class="grid grid-cols-3 gap-x-8 max-w-[920px]"> 
       <%= render partial: "dashboard/summary_card", locals: {
         target: "totalAmount", title: "ยอดขายรวมทั้งหมด", value: @data[:total_amount], unit: "บาท"
@@ -18,10 +18,6 @@
   </div> <!-- summary cards -->
 
   <div class="chart-wrapper">
-  <!--
-    <h2 class="text-center text-semibold">ภาพรวมยอดขาย</h2>
-    <h3 class="text-center text-[14.5px]">ยอดขายทั้งหมด <%= @data[:total_amount] %> บาท</h3>
-  -->
     <div id="my-chart" 
       data-dashboard-target="myChart"
       class="my-4 w-[500px] h-[370px]">
