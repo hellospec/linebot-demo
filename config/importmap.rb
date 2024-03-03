@@ -10,3 +10,4 @@ pin "echarts", to: "https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.
 
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/channels", under: "channels"
+pin_all_from "app/javascript/src", under: "src"

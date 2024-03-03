@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 import * as echarts from "echarts"
-import {initTotalSaleChart, totalSaleChartOption} from "../src/charts/total_sale_chart"
+import {initTotalSaleChart, totalSaleChartOption} from "src/charts/total_sale_chart"
 
 export default class TotalSaleChartController extends Controller {
   static targets = ["chart", "totalAmount", "dataTable"]
