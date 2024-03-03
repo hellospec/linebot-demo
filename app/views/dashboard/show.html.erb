@@ -17,14 +17,7 @@
     </div>
   </div> <!-- summary cards -->
 
-  <div class="grid grid-cols-[500px_1fr] gap-x-4">
-    <div id="my-chart" 
-      data-dashboard-target="myChart"
-      class="my-4 w-[500px] h-[370px]">
-    </div>
-    
-    <%= render partial: "dashboard/product_table", locals: {amount_by_product: @data[:amount_by_product]} %>
-  </div>
+  <%= render partial: "dashboard/chart/total_sale", locals: {amount_by_product: @data[:amount_by_product]} %>
 
   <div class="my-6">
     <%= link_to "Manual create sale order", new_sale_order_path, class: "underline" %>

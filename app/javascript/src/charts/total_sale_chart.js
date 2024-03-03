@@ -5,7 +5,7 @@ let colorPalette = [
   '#CFE1B9',
 ]
 
-export function myChartOption(data) {
+export function totalSaleChartOption(data) {
   let totalAmount = data.reduce((acc, item) => acc + item.amount, 0)
 
   return {
@@ -71,10 +71,10 @@ export function myChartOption(data) {
   }
 }
 
-export function initMyChart(chartId) {
-  let myChart = document.getElementById(chartId)
-  if(myChart == null) { return }
+export function initTotalSaleChart(chartId) {
+  let container = document.getElementById(chartId)
+  if(container == null) { return }
 
-  let pie = window.echarts.init(myChart);
-  return pie
+  let chart = window.echarts.init(container);
+  return chart
 }
