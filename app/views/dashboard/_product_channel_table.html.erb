@@ -1,0 +1,18 @@
+<div class="data-table mt-[60px] font-kanit text-[15px] font-light">
+  <div class="mb-3 pb-3">
+    <% amount_product_channel.each do |product, item| %>
+      <h3 class="font-semibold text-[17px] text-gray-700"><%= product %></h3>
+      <% item.each do |ch, val| %>
+        <div class="grid grid-cols-[200px_120px] border-b border-gray-300 mb-1 pb-1">
+          <div>ยอดขายจาก <%= ch %></div>
+          <div><%= val %></div>
+        </div>
+      <% end %>
+      <div class="grid grid-cols-[200px_120px] border-b-2 border-gray-800 mb-1 pb-1">
+        <div>ยอดรวม <%= product %></div>
+        <div><%= amount_by_product.find { |a| a[:product] == product.to_s }[:amount] %></div>
+      </div>
+  </div>
+<% end %>
+</div> <!-- data-table breakdown by channel -->
+

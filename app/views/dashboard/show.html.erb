@@ -1,34 +1,23 @@
 <section id="dashboard"
-  class="p-4 max-w-[720px] mx-auto"
+  class="p-4 mx-auto"
   data-controller="dashboard"
   data-dashboard-data-value="<%= @data.to_json %>">
-  <div class="text-gray-700 text-center mb-16">
-    <div class="mb-4">Total Amount</div>
-    <div id="dashboard-value"
-      class="font-bold text-5xl" 
-      data-dashboard-target="totalAmount">
-      <%= @total_amount %>
-    </div>
-  </div>
 
-  <div class="grid grid-cols-2">
-    <div data-dashboard-target="productAmount">
-      <% @amount_by_product.each do |product, amount| %>
-        <div id="amount-<%= product %>" class="mb-8 text-center" data-amount="<%= amount %>"> 
-          <div class="mb-2"><%= product %></div>
-          <div class="amount text-2xl font-bold"><%= amount %></div>
-        </div>
-      <% end %>
+  <div class="px-8 py-4 bg-[#F9FBF6] rounded-lg mb-16">
+    <div class="grid grid-cols-3 gap-x-8 max-w-[920px]"> 
+      <%= render partial: "dashboard/summary_card", locals: {
+        target: "totalAmount", title: "ยอดขายรวมทั้งหมด", value: @data[:total_amount], unit: "บาท"
+      } %>
+      <%= render partial: "dashboard/summary_card", locals: {
+        target: "totalOrder", title: "จำนวนคำสั่งซื้อทั้งหมด", value: @data[:total_order], unit: "รายการ" 
+      } %>
+      <%= render partial: "dashboard/summary_card", locals: {
+        target: "avrgTotalAmount", title: "ยอดเฉลี่ยต่อรายการ", value: @data[:avrg_total_amount], unit: "บาท" 
+      } %>
     </div>
-    <div data-dashboard-target="channelAmount">
-      <% @amount_by_channel.each do |ch, amount| %>
-        <div id="amount-<%= ch %>" class="mb-8 text-center" data-amount="<%= amount %>"> 
-          <div class="mb-2"><%= ch %></div>
-          <div class="amount text-2xl font-bold"><%= amount %></div>
-        </div>
-      <% end %>
-    </div>
-  </div>
+  </div> <!-- summary cards -->
+
+  <%= render partial: "dashboard/chart/total_sale", locals: {amount_by_product: @data[:amount_by_product]} %>
 
   <div class="my-6">
     <%= link_to "Manual create sale order", new_sale_order_path, class: "underline" %>

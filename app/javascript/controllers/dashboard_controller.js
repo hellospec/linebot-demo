@@ -1,34 +1,34 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class DashboardController extends Controller {
-  static targets = ["totalAmount", "productAmount", "channelAmount"]
+  static targets = ["totalAmount", "totalOrder", "avrgTotalAmount", "myChart"]
   static values = { 
     data: Object 
+  }
+
+  connect() {
   }
 
   // Values callback
   dataValueChanged(data, previousData) {
     this.updateTotalAmount(data.total_amount)
-    this.updateAmountFor("product", data.amount_by_product)
-    this.updateAmountFor("channel", data.amount_by_channel)
+    this.updateTotalOrder(data.total_order)
+    this.updateAvrgTotalAmount(data.avrg_total_amount)
   }
 
-  updateTotalAmount(totalAmount) {
-    this.totalAmountTarget.textContent = totalAmount
+  updateTotalAmount(value) {
+    let cardValue = this.totalAmountTarget.querySelector(".card-value")
+    cardValue.textContent = value.toLocaleString()
   }
 
-  updateAmountFor(name, amounts) {
-    Object.keys(amounts).forEach(k => {
-      let newValue = parseInt(amounts[k])
-      let targetName = name + "AmountTarget"
+  updateTotalOrder(value) {
+    let cardValue = this.totalOrderTarget.querySelector(".card-value")
+    cardValue.textContent = value.toLocaleString()
+  }
 
-      let target = this[targetName].querySelector(`#amount-${k}`)
-      if(target.dataset.amount != newValue) {
-        target.dataset.amount = newValue
-        target.querySelector(".amount").textContent = newValue
-        target.querySelector(".amount").classList.add("text-blue-500")
-      }
-    })
+  updateAvrgTotalAmount(value) {
+    let cardValue = this.avrgTotalAmountTarget.querySelector(".card-value")
+    cardValue.textContent = value.toLocaleString()
   }
 }
 
