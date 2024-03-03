@@ -1,0 +1,13 @@
+<div class="mt-[60px] font-kanit text-[15px] font-light">
+  <% amount_by_product.each do |item| %>
+    <div class="grid grid-cols-[200px_120px] border-b border-gray-300 mb-1 pb-1">
+      <div><%= item[:product].capitalize %></div>
+      <div><%= number_with_delimiter item[:amount] %></div>
+    </div>
+  <% end %>
+  <div class="grid grid-cols-[200px_120px] border-b-2 border-gray-800 mb-1 pb-1">
+    <div>ยอดรวมทั้งหมด</div>
+    <div><%= number_with_delimiter amount_by_product.inject(0){|acc,p| acc + p[:amount]} %></div>
+  </div>
+</div> <!-- sale by product table -->
+

@@ -13,7 +13,7 @@ export function myChartOption(data) {
       top: -5,
       left: 'center',
       text: 'ภาพรวมยอดขาย',
-      subtext: [`ยอดขายทั้งหมด`,`{amount|${totalAmount}}`,`บาท`].join(" "),
+      subtext: [`ยอดขายทั้งหมด`,`{amount|${totalAmount.toLocaleString()}}`,`บาท`].join(" "),
       textStyle: {
         fontFamily: 'Kanit'
       },

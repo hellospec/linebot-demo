@@ -23,7 +23,7 @@
       class="my-4 w-[500px] h-[370px]">
     </div>
     
-    <%= render partial: "product_channel_table", locals: {amount_product_channel: @data[:amount_product_channel], amount_by_product: @data[:amount_by_product]} %>
+    <%= render partial: "dashboard/product_table", locals: {amount_by_product: @data[:amount_by_product]} %>
   </div>
 
   <div class="my-6">

@@ -33,17 +33,17 @@ export default class DashboardController extends Controller {
 
   updateTotalAmount(value) {
     let cardValue = this.totalAmountTarget.querySelector(".card-value")
-    cardValue.textContent = value
+    cardValue.textContent = value.toLocaleString()
   }
 
   updateTotalOrder(value) {
     let cardValue = this.totalOrderTarget.querySelector(".card-value")
-    cardValue.textContent = value
+    cardValue.textContent = value.toLocaleString()
   }
 
   updateAvrgTotalAmount(value) {
     let cardValue = this.avrgTotalAmountTarget.querySelector(".card-value")
-    cardValue.textContent = value
+    cardValue.textContent = value.toLocaleString()
   }
 }
 
