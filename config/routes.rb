@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   end
   resource :dashboard
 
+  mount ActionCable.server => "/cable"
 
   authenticated :user, -> (u) { u.admin? } do
     root to: "admin/admin_panel#show", as: :authenticated_admin
