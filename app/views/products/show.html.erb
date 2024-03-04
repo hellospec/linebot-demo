@@ -1,3 +1,21 @@
 <section id="product">
-  <%= @product.inspect %>
+  <div class="mb-4">
+    <%= @product.inspect %>
+  </div>
+
+  <div class="mb-4">
+    <div class="text-bold">For สรุปยอดขายของ Product-1 แต่ละช่องทาง</div>
+    <div><%= Product.joins(:sales).where(id: 2).group('sales.channel_code').sum(:amount)
+ %></div>
+  </div>
+
+  <div class="mb-4">
+    <div class="text-bold">Use this data to render chart</div>
+    <%= Sale.dashboard_data %>
+  </div>
+
+  <div class="mb-4">
+    <div class="text-bold">For Sales Performance summary</div>
+    <%= Sale.sale_by_product(@product) %>
+  </div>
 </section>

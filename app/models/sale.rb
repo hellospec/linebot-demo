@@ -44,5 +44,38 @@ class Sale < ApplicationRecord
           item[product.to_sym][channel.to_sym] = amount
         end
     end
+
+    # method sale_by_product(product)
+    # Example of return result
+    # [
+    #   {
+    #     :line_display_name=>"pwoot",
+    #     :data=>[{:channel=>"fb", :amount=>108}, {:channel=>"line", :amount=>370}]
+    #   },
+    #   {
+    #     :line_display_name=>nil,
+    #     :data=>[{:channel=>"fb", :amount=>130}, {:channel=>"line", :amount=>583}]
+    #   }
+    # ]
+    def sale_by_product(product)
+      Sale.joins(:user)
+        .group('users.line_display_name, sales.channel_code')
+        .select('users.line_display_name, sales.channel_code, SUM(sales.amount) as total_amount')
+        .order('users.line_display_name, sales.channel_code').map do |sale|
+          {
+            line_display_name: sale.line_display_name,
+            channel: sale.channel_code,
+            amount: sale.total_amount
+          }
+        end
+        .group_by { |sale| sale[:line_display_name] }
+        .map do |k,v|
+          data = v.map {|item| item.delete(:line_display_name); item}
+          {
+            line_display_name: k,
+            data: data
+          }
+        end
+    end
   end
 end

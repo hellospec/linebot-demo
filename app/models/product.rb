@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+  has_many :sales
+
   after_validation :generate_slug, only: [:create, :update]
 
   validates :code, presence: true
