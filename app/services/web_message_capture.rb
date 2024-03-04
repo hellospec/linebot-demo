@@ -11,8 +11,8 @@ class WebMessageCapture
     @new_sale = Sale.new(
       user: current_user,
       amount: amount,
-      product_code: product_code,
-      channel_code: channel_code
+      channel_code: channel_code,
+      product: Product.find_by(code: product_code)
     )
   end
 

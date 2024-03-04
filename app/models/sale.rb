@@ -1,8 +1,8 @@
 class Sale < ApplicationRecord
   belongs_to :user
+  belongs_to :product
 
   validates :amount, numericality: { only_integer: true, greater_than: 0 }
-  validates :product_code, presence: true
   validates :channel_code, presence: true
 
   scope :total_amount, -> { sum(:amount) }
@@ -13,24 +13,32 @@ class Sale < ApplicationRecord
       total_order: total_order,
       total_amount: total_amount,
       avrg_total_amount: avrg_total_amount,
-      amount_by_product: sum_amount_of(:product_code),
-      amount_by_channel: sum_amount_of(:channel_code),
+      amount_by_product: sum_amount_of_product,
+      amount_by_channel: sum_amount_of_channel,
       amount_product_channel: amount_by_product_channel
     }
   }
 
   class << self
-    def sum_amount_of(name)
-      raise "Not recognize name: #{name}" unless Sale.column_names.include? name.to_s
+    def sum_amount_of_product
+      Sale.joins(:product).group('products.code', 'products.slug').sum(:amount).map do |k,v|
+        {
+          product: k[0],
+          product_slug: k[1],
+          amount: v
+        }
+      end
+    end
 
-      data = Sale.group(name.to_sym).sum(:amount)
+    def sum_amount_of_channel
+      data = Sale.group(:channel_code).sum(:amount)
       data.map do |k,v|
-        {product: k, amount: v}
+        {channel: k, amount: v}
       end
     end
 
     def amount_by_product_channel
-      Sale.group(:product_code, :channel_code).sum(:amount)
+      Sale.joins(:product).group('products.code', :channel_code).sum(:amount)
         .each_with_object({}) do |((product, channel), amount), item|
           item[product.to_sym] ||= {}
           item[product.to_sym][channel.to_sym] = amount
