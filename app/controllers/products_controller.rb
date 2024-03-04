@@ -6,7 +6,14 @@ class ProductsController < ApplicationController
 
   def show
     id = params[:id]
-    is_integer = Integer id
-    @product = is_integer ? Product.find(id) : Product.find_by(slug: id)
+    @product = is_integer?(id) ? Product.find(id) : Product.find_by(slug: id)
+  end
+
+  private
+
+  def is_integer?(id)
+    !!Integer(id)
+  rescue ArgumentError, TypeError
+    false
   end
 end

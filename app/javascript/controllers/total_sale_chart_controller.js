@@ -6,7 +6,7 @@ import {initTotalSaleChart, totalSaleChartOption} from "src/charts/total_sale_ch
 export default class TotalSaleChartController extends Controller {
   static targets = ["chart", "totalAmount", "dataTable"]
   static values = { 
-    data: Array 
+    data: Array
   }
 
   connect() {

@@ -16,4 +16,14 @@ class ApplicationController < ActionController::Base
       return
     end
   end
+
+  def authenticate_sale_person
+    # user must be match one of either cases
+    # - a `current_user` who already login from web
+    # - a request with params[:line_id] and this line_id match
+    # with one of the user record in database
+    unless authenticate_user! || match_with_line_id
+      render json: "not authorized", status: :unauthorized
+    end
+  end
 end
