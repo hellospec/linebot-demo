@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   resources :sale_persons, only: [:new, :create] do
     get "line_login", on: :collection
   end
+
   resource :dashboard
+  resources :products, only: [:index, :show]
 
   mount ActionCable.server => "/cable"
 
