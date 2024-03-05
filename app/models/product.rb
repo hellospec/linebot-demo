@@ -15,6 +15,13 @@ class Product < ApplicationRecord
   private
 
   def generate_slug
-    self.slug = name.to_s.parameterize
+    if name.size.positive? && name.parameterize.blank?
+      # For non-english
+      value = name.strip.gsub(/\s+/,"-")
+    else
+      value = name.parameterize
+    end
+
+    self.slug = value
   end
 end
