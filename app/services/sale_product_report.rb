@@ -40,6 +40,8 @@ class SaleProductReport
     }
   end
 
+  alias_method :sale_channels, :by_channel_compare
+
   def sale_performance
     raw = Sale.joins(:user, :product)
       .where(product: Product.last)
