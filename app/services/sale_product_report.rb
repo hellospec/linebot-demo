@@ -44,7 +44,7 @@ class SaleProductReport
 
   def sale_performance
     raw = Sale.joins(:user, :product)
-      .where(product: Product.last)
+      .where(product: product)
       .group('users.line_display_name, users.line_picture_url, channel_code')
       .select('users.line_display_name, users.line_picture_url, channel_code, SUM(amount) AS total_amount, COUNT(channel_code) AS count')
       .map do |sale|

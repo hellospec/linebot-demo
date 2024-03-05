@@ -10,7 +10,7 @@
   </div>
 
   <% sale_performance.each do |item| %>
-  <div class="grid grid-cols-[150px_repeat(5,1fr)] max-w-[680px] border-b border-gray-200 mb-2 pb-2">
+  <div class="grid grid-cols-[150px_repeat(5,1fr)] max-w-[680px] border-b border-gray-200 mb-2 pb-2 last:border-none">
     <div class="row-start-1" style="grid-row-end:<%= item[:data].size + 2 %>;">
       <% if item[:line_picture_url].present? %>
         <img class="inline rounded-full mr-1" width="28px" height="28px" src="<%= item[:line_picture_url] %>" />
