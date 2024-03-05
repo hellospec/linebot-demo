@@ -1,8 +1,9 @@
 <section id="product" class="text-gray-800 font-kanit">
   <div class="grid grid-cols-[680px_1fr]">
     <div 
-      data-controller="total-sale-chart"
-      data-total-sale-chart-data-value="<%= Sale.dashboard_data[:amount_by_product].to_json %>"
+      data-controller="total-sale-chart-focus"
+      data-total-sale-chart-focus-data-value="<%= Sale.dashboard_data[:amount_by_product].to_json %>"
+      data-total-sale-chart-focus-product-value="<%= @product.code %>"
       class="col-start-2 row-start-1 row-end-3 grid-cols-[500px_1fr] gap-x-4">
 
       <%= render partial: "chart/sale_chart" %>

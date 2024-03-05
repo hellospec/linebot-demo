@@ -5,6 +5,43 @@ let colorPalette = [
   '#CFE1B9',
 ]
 
+export function totalSaleChartOptionFocus(data, name) {
+  let selectedMap = {}
+  selectedMap[name] = true
+
+  let option = totalSaleChartOption(data)
+  option.series = [{
+    type: 'pie',
+    top: 25,
+    color: colorPalette,
+    animation: false,
+    selectMode: "single",
+    selectedMap: selectedMap,
+    select: {
+      itemStyle: { opacity: 1 },
+      label: { opacity: 1 }
+    },
+    itemStyle: {
+      opacity: 0.2
+    },
+    label: { 
+      show: true,
+      width: 385,
+      formatter: (params) => {
+        return [
+          `{product| ${params.data.product}}`,
+          `{amount| ${parseInt(params.data.amount).toLocaleString()}} บาท`,
+          ].join("\n")
+      },
+      rich: {
+        "product": { fontFamily: 'Kanit', fontSize: 14 },
+        "amount": { fontFamily: 'Kanit', fontSize: 19, padding: [6,0,0,0] }
+      }
+    }
+  }]
+  return option
+}
+
 export function totalSaleChartOption(data) {
   let totalAmount = data.reduce((acc, item) => acc + item.amount, 0)
 
