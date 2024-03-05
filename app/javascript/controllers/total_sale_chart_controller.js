@@ -25,6 +25,8 @@ export default class TotalSaleChartController extends Controller {
   }
 
   renderDataTable() {
+    if(!this.hasDataTableTarget) { return }
+
     this.dataValue.forEach(d => {
       let valueElement = this.dataTableTarget.querySelector(`[data-product-name="${d.product}"]`)
       valueElement.textContent = d.amount.toLocaleString()

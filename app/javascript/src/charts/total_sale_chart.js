@@ -84,7 +84,6 @@ export function initTotalSaleChart(chartId) {
 
   let chart = window.echarts.init(container);
   chart.on("click", function(params){
-    console.log(params)
     let url = `${container.dataset.appUrl}/products/${params.data.product_slug}`
     window.location.href = url
   })
