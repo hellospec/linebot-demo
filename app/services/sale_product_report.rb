@@ -20,7 +20,7 @@ class SaleProductReport
   def by_channel_compare(period:)
     available_periods = [:last_year, :last_month, :last_week, :yesterday]
     unless available_periods.include? period.to_sym
-      raise "Not recognized period #{period}" 
+      raise "Not recognized period #{period}"
     end
 
     duration = (from.public_send(period)..to.public_send(period))
@@ -31,11 +31,18 @@ class SaleProductReport
       ((present[channel] - to_compare[channel].to_f) / present[channel] * 100).round(2)
     end
 
+    present_channels = present.keys
+    data = present_channels.map do |ch|
+      {
+        channel: ch.to_s,
+        present: present[ch],
+        to_compare: to_compare[ch],
+        percent_difference: percent_diff.call(ch)
+      }
+    end
+
     {
-      data: [
-        {channel: "fb", present: present[:fb], to_compare: to_compare[:fb], percent_difference: percent_diff.call(:fb)},
-        {channel: "line", present: present[:line], to_compare: to_compare[:line], percent_difference: percent_diff.call(:line)}
-      ],
+      data: data,
       compare_duration: duration.to_s
     }
   end
