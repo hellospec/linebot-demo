@@ -67,7 +67,7 @@
         <div class="grid grid-cols-[180px_80px_100px_50px] mb-1">
           <div><%= s.created_at.strftime("%F %R") %></div>
           <div><%= s.amount %></div>
-          <div><%= s.product_code %></div>
+          <div><%= s.product.code %></div>
           <div><%= s.channel_code %></div>
         </div>
       <% end %>

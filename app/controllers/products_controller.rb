@@ -10,6 +10,7 @@ class ProductsController < ApplicationController
     @report = SaleProductReport.new(product: @product)
 
     @channel_compare = @report.by_channel_compare(period: :last_month)
+    @sale_performance = @report.sale_performance
   end
 
   private
