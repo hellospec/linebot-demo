@@ -1,0 +1,39 @@
+<div class="px-8 py-4 bg-[#F9FBF6] rounded-lg mb-8">
+  <div class="font-medium text-gray-700 mb-4">For Sales Performance summary</div>
+  <div class="text-gray-500 text-[15px] font-light grid grid-cols-[150px_repeat(5,1fr)] max-w-[680px] border-b border-gray-200 mb-2 pb-2">
+    <div>Sale person</div>
+    <div>ช่องทาง</div>
+    <div>จำนวนทัก</div>
+    <div>จำนวนปิดขาย</div>
+    <div>Success rate</div>
+    <div>ยอดรวม</div>
+  </div>
+
+  <% sale_performance.each do |item| %>
+  <div class="grid grid-cols-[150px_repeat(5,1fr)] max-w-[680px] border-b border-gray-200 mb-2 pb-2 last:border-none">
+    <div class="row-start-1" style="grid-row-end:<%= item[:data].size + 2 %>;">
+      <% if item[:line_picture_url].present? %>
+        <img class="inline rounded-full mr-1" width="28px" height="28px" src="<%= item[:line_picture_url] %>" />
+      <% else %>
+        <svg viewBox="0 0 512 512" width="28" height="28" class="inline mr-1" xmlns="http://www.w3.org/2000/svg"><circle cx="256" cy="256" fill="#ffd93b" r="256" transform="matrix(.997 -.073 .073 .997 -17.932 19.287)"/><g fill-rule="evenodd"><path d="m385.713 348.6a154 154 0 0 1 -259.425 0 16 16 0 0 1 26.935-17.265 122.045 122.045 0 0 0 205.554 0 16 16 0 0 1 26.936 17.265z"/><path d="m128.96 183.97a37.5 37.5 0 0 1 37.5-37.5h.006a37.5 37.5 0 1 1 -37.5 37.5z"/><path d="m308.04 183.97a37.5 37.5 0 0 1 37.5-37.5h.007a37.5 37.5 0 1 1 -37.5 37.5z"/></g></svg>
+      <% end %>
+      <span><%= item[:line_display_name] %></span>
+    </div>
+    <% item[:data].each do |d| %>
+      <div class="font-light"><%= d[:channel] %></div>
+      <div><%= d[:count] %></div>
+      <div><%= d[:count] %></div>
+      <div><%= d[:count] %></div>
+      <div class="font-medium"><%= d[:total_amount] %></div>
+    <% end %>
+
+    <% total_line = item[:data].inject({total_amount:0, count: 0,channel:"รวมทั้งหมด"}) { |memo, h| memo[:total_amount] += h[:total_amount];memo[:count] += h[:count];memo} %>
+      <div class="font-light"><%= total_line[:channel] %></div>
+      <div><%= total_line[:count] %></div>
+      <div><%= total_line[:count] %></div>
+      <div><%= total_line[:count] %></div>
+      <div class="font-medium"><%= total_line[:total_amount] %></div>
+  </div>
+  <% end %>
+</div> <!-- sale performance -->
+
