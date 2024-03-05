@@ -1,12 +1,27 @@
-<section id="product">
+<section id="product" class="text-gray-800 font-kanit">
   <div class="mb-4">
     <%= @product.inspect %>
   </div>
 
-  <div class="mb-4">
-    <div class="text-bold">For สรุปยอดขายของ Product-1 แต่ละช่องทาง</div>
-    <div><%= Product.joins(:sales).where(id: 2).group('sales.channel_code').sum(:amount)
- %></div>
+  <div class="px-8 py-4 bg-[#F9FBF6] rounded-lg mb-8">
+    <div class="font-medium text-gray-700 mb-4">สรุปยอดขายของ Product-1 แต่ละช่องทาง</div>
+    <div class="text-gray-500 text-[15px] font-light grid grid-cols-4 max-w-[580px] border-b border-gray-200 mb-2 pb-2">
+      <div>ช่องทาง</div>
+      <div>ยอดขายก่อนหน้า</div>
+      <div>ยอดขาย</div>
+      <div>เปรียบเทียบ</div>
+    </div>
+
+    <% @channel_compare[:data].each do |item| %>
+    <div class="grid grid-cols-4 max-w-[580px] border-b border-gray-200 mb-1 pb-1">
+      <div><%= item[:channel] %></div>
+      <div><%= item[:to_compare] %></div>
+      <div><%= item[:present] %></div>
+      <div><%= item[:percent_difference] %>%</div>
+    </div>
+    <% end %>
+
+    <p class="mt-4 font-light text-sm text-gray-400">*ยอดขายก่อนหน้าคิดจากยอดขายระหว่างวันที่ <%= @channel_compare[:compare_duration].gsub("..", " ถึง ") %></p>
   </div>
 
   <div class="mb-4">
