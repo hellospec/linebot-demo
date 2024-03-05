@@ -56,13 +56,20 @@ export function totalSaleChartOption(data) {
           formatter: (params) => {
             let percent = ((parseInt(params.data.amount) / totalAmount) * 100.0).toFixed(2)
             if(Number(percent) > 5.0) {
-              return `{percentNormal| ${percent}%}`
+              switch(params.color) {
+                case "#ECF39E": return `{percentDark| ${percent}%}`
+                case "#3A5A40": return `{percentLight| ${percent}%}`
+                case "#A3B18A": return `{percentShine| ${percent}%}`
+                default: return `{percentNormal| ${percent}%}`
+              }
             } else {
               return `{percentSmall| ${percent}%}`
             }
           },
           rich: {
-            "percentNormal": { fontFamily: 'Kanit', fontSize: 19, forWeight: 'bold', color: '#fefefe' },
+            "percentDark": { fontFamily: 'Kanit', fontSize: 19, forWeight: 'bold', color: '#3A5A40' },
+            "percentLight": { fontFamily: 'Kanit', fontSize: 19, forWeight: 'bold', color: '#B5C99A' },
+            "percentShine": { fontFamily: 'Kanit', fontSize: 19, forWeight: 'bold', color: '#ECF39E' },
             "percentSmall": { fontFamily: 'Kanit', fontSize: 14, forWeight: 'bold', color: '#0a0a0a' },
           }
         }

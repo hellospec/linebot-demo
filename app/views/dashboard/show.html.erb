@@ -27,7 +27,7 @@
     <%= render partial: "chart/sale_chart_table", locals: {amount_by_product: @data[:amount_by_product]} %>
   </div> <!-- total sale pie chart -->
 
-  <div class="my-6">
-    <%= link_to "Manual create sale order", new_sale_order_path, class: "underline" %>
+  <div class="my-6 font-kanit">
+    <%= link_to "ส่งข้อมูลการขาย", new_sale_order_path, class: "underline" %>
   </div>
 </section>
