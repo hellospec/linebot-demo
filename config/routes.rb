@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard
+  resource :rfm
   resources :products, only: [:index, :show]
 
   mount ActionCable.server => "/cable"
