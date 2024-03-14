@@ -1,10 +1,9 @@
 <section id="rfm">
   <div><%#= row.inspect %></div>
-  <div class="mb-2 grid grid-cols-[repeat(5,150px)_50px_50px_50px]">
+  <div class="mb-2 grid grid-cols-[repeat(4,150px)_50px_50px_50px]">
     <div>days </div>
     <div>order_count </div>
     <div>sum_total_amount </div>
-    <div>customer_id </div>
     <div>customer_name </div>
     <div>R</div>
     <div>F</div>
@@ -12,11 +11,10 @@
   </div> <!-- header -->
 
   <% @data.each do |row| %>
-    <div class="mb-2 grid grid-cols-[repeat(5,150px)_50px_50px_50px]">
+    <div class="mb-2 grid grid-cols-[repeat(4,150px)_50px_50px_50px]">
       <div><%= row[:days] %></div>
       <div><%= row[:order_count] %></div>
       <div><%= row[:sum_total_amount] %></div>
-      <div><%= row[:customer_id] %></div>
       <div><%= row[:customer_name] %></div>
       <div><%= row[:r_score] %></div>
       <div><%= row[:f_score] %></div>

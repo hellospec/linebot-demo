@@ -3,20 +3,27 @@ require "csv"
 class RfmsController < ApplicationController
   def show
     csv_data = CSV.read("db/rfm_sample.csv", headers: true)
-    data1 = transform_data(csv_data)
-    data2 = add_days(data1)
-    data3 = add_r_score(data2)
-
-    data4 = sort_by_order_count(data3)
-    data5 = add_f_score(data4)
-
-    data6 = sort_by_sum_total_amount(data5)
-    @data = add_m_score(data6)
+    @data = transform_data(csv_data)
   end
 
   private
 
   def transform_data(csv_data)
+    data = build_up_base_data(csv_data)
+    data = add_days(data)
+    data = sort_data_for("days", data, false)
+    data = add_score_column_for("r", data)
+
+    data = sort_data_for("order_count", data)
+    data = add_score_column_for("f", data)
+
+    # data = sort_by_sum_total_amount(data)
+    data = sort_data_for("sum_total_amount", data)
+    data = add_score_column_for("m", data)
+    data
+  end
+
+  def build_up_base_data(csv_data)
     grouped_data = csv_data.group_by { |row| [row['customer_id'], row['customer_name'], row['customer_nick_name'], row['customer_phone_number']] }
     grouped_data.map do |group, rows|
       order_count = rows.count
@@ -39,65 +46,34 @@ class RfmsController < ApplicationController
       days = (Date.parse(row[:order_date])..Date.today).count
       row[:days] = days
       row
-    end.sort! { |a,b| b[:days] <=> a[:days] }
+    end
   end
 
-  def add_r_score(data)
+  def add_score_column_for(score_name, data)
     number_of_group = 5
     number_of_records = data.size
     range = number_of_records / number_of_group
+    new_column_name = :"#{score_name}_score"
+
     data.map.with_index do |row, index|
       n = index + 1
       case n
-      when n...range;             row[:r_score] = 1
-      when range...(2*range);     row[:r_score] = 2
-      when (2*range)...(3*range); row[:r_score] = 3
-      when (3*range)...(4*range); row[:r_score] = 4
-      when (4*range)..(5*range);  row[:r_score] = 5
+      when n...range;             row[new_column_name] = 1
+      when range...(2*range);     row[new_column_name] = 2
+      when (2*range)...(3*range); row[new_column_name] = 3
+      when (3*range)...(4*range); row[new_column_name] = 4
+      when (4*range)..(5*range);  row[new_column_name] = 5
       end
       row
     end
   end
 
-  def add_f_score(data)
-    number_of_group = 5
-    number_of_records = data.size
-    range = number_of_records / number_of_group
-    data.map.with_index do |row, index|
-      n = index + 1
-      case n
-      when n...range;             row[:f_score] = 1
-      when range...(2*range);     row[:f_score] = 2
-      when (2*range)...(3*range); row[:f_score] = 3
-      when (3*range)...(4*range); row[:f_score] = 4
-      when (4*range)..(5*range);  row[:f_score] = 5
-      end
-      row
+  def sort_data_for(name, data, asc=true)
+    if asc
+      data.sort { |a,b| a[name.to_sym] <=> b[name.to_sym] }
+    else
+      data.sort { |a,b| b[name.to_sym] <=> a[name.to_sym] }
     end
-  end
-
-  def add_m_score(data)
-    number_of_group = 5
-    number_of_records = data.size
-    range = number_of_records / number_of_group
-    data.map.with_index do |row, index|
-      n = index + 1
-      case n
-      when n...range;             row[:m_score] = 1
-      when range...(2*range);     row[:m_score] = 2
-      when (2*range)...(3*range); row[:m_score] = 3
-      when (3*range)...(4*range); row[:m_score] = 4
-      when (4*range)..(5*range);  row[:m_score] = 5
-      end
-      row
-    end
-  end
-
-  def sort_by_order_count(data)
-    data.sort! { |a,b| a[:order_count] <=> b[:order_count] }
-  end
-
-  def sort_by_sum_total_amount(data)
-    data.sort! { |a,b| a[:sum_total_amount] <=> b[:sum_total_amount] }
   end
 end
+
