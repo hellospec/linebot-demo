@@ -3,8 +3,9 @@
   data-rfm-data-value="<%= @data.to_json %>"
   >
 
+  <div class="mb-8"><%= @data.size %></div>
+  <div class="mb-8"><%= @data[0].inspect %></div>
   <div class="mb-8"><%= @data2.inspect %></div>
-  <div class="mb-8"><%#= @data.inspect %></div>
   <div id="rfm-grid" style="width:100%; max-width:720px;height:400px;"></div>
 
   <div class="mb-2 grid grid-cols-[repeat(4,150px)_50px_50px_50px]">

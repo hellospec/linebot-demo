@@ -4,7 +4,8 @@ class RfmsController < ApplicationController
   def show
     csv_data = CSV.read("db/rfm_sample.csv", headers: true)
     @data = transform_data(csv_data)
-    @data2 = restructure_data(@data)
+    @data2 = build_customer_group(@data)
+    @data2 = map_customer_group_attributes(@data2)
   end
 
   private
@@ -76,82 +77,99 @@ class RfmsController < ApplicationController
     end
   end
 
-  def restructure_data(data)
-    result = {
-      champion: [],
-      royal: [],
-      potential_royal: [],
-      new: [],
-      promising: [],
-      need_attention: [],
-      need_attention_2: [],
-      about_to_sleep: [],
-      cant_loose: [],
-      risk: [],
-      hibernating: []
-    }
-      
+  def customer_group_name
+    %i(
+      champion
+      royal
+      potential_royal
+      new
+      promising
+      need_attention
+      need_attention_2
+      about_to_sleep
+      cant_lose
+      risk
+      hibernating
+    )
+  end
+
+  # [
+  # {:group=>:champion, :customers=>11, :percentage=>11.0, :orders_per_customer=>4.73, :spent_per_customer=>5935.18}, 
+  # {:group=>:royal, :customers=>16, :percentage=>16.0, :orders_per_customer=>4.31, :spent_per_customer=>5472.5},
+  # {:group=>:potential_royal, :customers=>17, :percentage=>17.0, :orders_per_customer=>2.59, :spent_per_customer=>3008.71}, 
+  # {:group=>:new, :customers=>3, :percentage=>3.0, :orders_per_customer=>1.0, :spent_per_customer=>1457.0}, 
+  # {:group=>:promising, :customers=>0, :percentage=>0.0, :orders_per_customer=>0, :spent_per_customer=>0}, 
+  # {:group=>:need_attention, :customers=>9, :percentage=>9.0, :orders_per_customer=>1.22, :spent_per_customer=>1675.44}, 
+  # {:group=>:need_attention_2, :customers=>5, :percentage=>5.0, :orders_per_customer=>3.2, :spent_per_customer=>3616.8}, 
+  # {:group=>:about_to_sleep, :customers=>0, :percentage=>0.0, :orders_per_customer=>0, :spent_per_customer=>0}, 
+  # {:group=>:cant_loose, :customers=>5, :percentage=>5.0, :orders_per_customer=>6.0, :spent_per_customer=>7679.8}, 
+  # {:group=>:risk, :customers=>6, :percentage=>6.0, :orders_per_customer=>3.0, :spent_per_customer=>4202.17}, 
+  # {:group=>:hibernating, :customers=>28, :percentage=>28.0, :orders_per_customer=>1.43, :spent_per_customer=>1636.89}]
+
+  def build_customer_group(data)
+    result = {}
+    customer_group_name.each { |g| result[g.to_sym] = {data: [], customers: 0} }
     data.each do |d|
       avrg_fm = ((d[:f_score] + d[:m_score])/2.0).round(1)
-      r = d[:r_score]
+      r = d[:r_score]..d[:r_score]
 
-      if r == 5 and (4..5).include?(avrg_fm)
-        # result[:champion] = 1 unless result.has_key?(:champion)
-        # result[:champion] += 1
-        result[:champion] << d
+      if (5..5).include?(r) and (4..5).include?(avrg_fm)
+        result[:champion][:data] << d
+        result[:champion][:position_x] = [4, 5]
+        result[:champion][:position_y] = [3, 5]
 
       elsif (3..4).include?(r) and (4..5).include?(avrg_fm)
-        # result[:royal] = 1 unless result.has_key?(:royal)
-        # result[:royal] += 1
-        result[:royal] << d
+        result[:royal][:data] << d
+        result[:royal][:position_x] = [2, 4]
+        result[:royal][:position_y] = [3, 5]
 
-      elsif (4..5).include?(r) and (2...4).include?(avrg_fm)
-        # result[:potential_royal] = 1 unless result.has_key?(:potential_royal)
-        # result[:potential_royal] += 1
-        result[:potential_royal] << d
+      elsif (4..5).include?(r) and (2..3.5).include?(avrg_fm)
+        result[:potential_royal][:data] << d
+        result[:potential_royal][:position_x] = [3, 5]
+        result[:potential_royal][:position_y] = [1, 3]
 
-      elsif r == 5 and (1..2).include?(avrg_fm)
-        # result[:new] = 1 unless result.has_key?(:new)
-        # result[:new] += 1
-        result[:new] << d
+      elsif (5..5).include?(r) and (1..2).include?(avrg_fm)
+        result[:new][:data] << d
+        result[:new][:position_x] = [4, 5]
+        result[:new][:position_y] = [0, 1]
 
-      elsif r == 4 and avrg_fm == 1.0
-        # result[:promising] = 1 unless result.has_key?(:promising)
-        # result[:promising] += 1
-        result[:promising] << d
+      elsif (4..4).include?(r) and (1..1).include?(avrg_fm)
+        result[:promising][:data] << d
+        result[:promising][:position_x] = [3, 4]
+        result[:promising][:position_y] = [0, 1]
 
-      elsif r == 3 and (1...3).include?(avrg_fm)
-        # result[:need_attention] = 1 unless result.has_key?(:need_attention)
-        # result[:need_attention] += 1
-        result[:need_attention] << d
+      elsif (3..3).include?(r) and (1..2.5).include?(avrg_fm)
+        result[:need_attention][:data] << d
+        result[:need_attention][:position_x] = [2, 3]
+        result[:need_attention][:position_y] = [0, 2]
 
-      elsif r == 3 and (3..4).include?(avrg_fm)
-        # result[:need_attention_2] = 1 unless result.has_key?(:need_attention_2)
-        # result[:need_attention_2] += 1
-        result[:need_attention_2] << d
+      elsif (3..3).include?(r) and (3..4).include?(avrg_fm)
+        result[:need_attention_2][:data] << d
+        result[:need_attention_2][:position_x] = [2, 3]
+        result[:need_attention_2][:position_y] = [0, 2]
 
-      elsif r == 3 and avrg_fm == 3.0
-        # result[:about_to_sleep] = 1 unless result.has_key?(:about_to_sleep)
-        # result[:about_to_sleep] += 1
-        result[:about_to_sleep] << d
+      elsif (3..3).include?(r) and (3..3).include?(avrg_fm)
+        result[:about_to_sleep][:data] << d
+        result[:about_to_sleep][:position_x] = [2, 3]
+        result[:about_to_sleep][:position_y] = [2, 3]
 
-      elsif (1..2).include?(r) and avrg_fm == 5.0
-        # result[:cant_loose] = 1 unless result.has_key?(:royal)
-        # result[:cant_loose] += 1
-        result[:cant_loose] << d
+      elsif (1..2).include?(r) and (5..5).include?(avrg_fm)
+        result[:cant_lose][:data] << d
+        result[:cant_lose][:position_x] = [0, 2]
+        result[:cant_lose][:position_y] = [4, 5]
 
       elsif (1..2).include?(r) and (3..4).include?(avrg_fm)
-        # result[:risk] = 1 unless result.has_key?(:risk)
-        # result[:risk] += 1
-        result[:risk] << d
+        result[:risk][:data] << d
+        result[:risk][:position_x] = [0, 2]
+        result[:risk][:position_y] = [2, 4]
 
-      elsif (1..2).include?(r) and (1...3).include?(avrg_fm)
-        # result[:hibernating] = 1 unless result.has_key?(:hibernating)
-        # result[:hibernating] += 1
-        result[:hibernating] << d
+      elsif (1..2).include?(r) and (1..2.5).include?(avrg_fm)
+        result[:hibernating][:data] << d
+        result[:hibernating][:position_x] = [0, 2]
+        result[:hibernating][:position_y] = [0, 2]
 
       else
-        # debugger
+        debugger
       end
     end
 
@@ -171,5 +189,26 @@ class RfmsController < ApplicationController
     #   {..},
     # ]
   end
-end
 
+  def map_customer_group_attributes(data)
+    all_customers = @data.size
+    data.map do |k,v|
+      sum_customers = v[:data].size
+      sum_order_count = v[:data].sum { |d| d[:order_count] }
+      sum_total_amount = v[:data].sum { |d| d[:sum_total_amount] }
+      percentage = (sum_customers * 100.0 / all_customers).round(2)
+      order_per_customer = sum_customers == 0 ? 0 : (sum_order_count / sum_customers.to_f).round(2)
+      spent_per_customer = sum_total_amount == 0 ? 0 : (sum_total_amount / sum_customers.to_f).round(2)
+
+      {
+        group: k,
+        customers: sum_customers,
+        percentage: percentage,
+        orders_per_customer: order_per_customer,
+        spent_per_customer: spent_per_customer,
+        position_x: v[:position_x],
+        position_y: v[:position_y]
+      }
+    end
+  end
+end
