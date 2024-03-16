@@ -3,8 +3,63 @@
   data-rfm-data-value="<%= @data.to_json %>"
   >
 
-  <div class="mb-8"><%= @data.size %></div>
-  <div class="mb-8"><%= @data[0].inspect %></div>
+  <div id="rfm-css-chart" class="grid grid-cols-[100px_1fr] max-w-[860px]">
+    <div class="flex justify-end">
+      <div class="axis-title-y">Frequency + Monetary (orders + revenue)</div>
+      <div class="axis-scale-y grid gap-[2px]">
+        <div class="bg-blue-400 p-2">5</div>
+        <div class="bg-blue-400 p-2">4</div>
+        <div class="bg-blue-400 p-2">3</div>
+        <div class="bg-blue-400 p-2">2</div>
+        <div class="bg-blue-400 p-2">1</div>
+      </div>
+    </div> <!-- y-axis -->
+
+    <div class="rfm-grid">
+      <div class="cant-lose">y</div>
+      <div class="cant-lose">y</div>
+      <div class="royal">y</div>
+      <div class="royal">y</div>
+      <div class="champion">y</div>
+
+      <div class="risk">x</div>
+      <div class="risk">x</div>
+      <div class="royal">x</div>
+      <div class="royal">x</div>
+      <div class="champion">x</div>
+
+      <div class="risk">y</div>
+      <div class="risk">y</div>
+      <div class="sleep">y</div>
+      <div class="potential-royal">y</div>
+      <div class="potential-royal">y</div>
+
+      <div class="hibernating">x</div>
+      <div class="hibernating">x</div>
+      <div class="need-attention">x</div>
+      <div class="potential-royal">x</div>
+      <div class="potential-royal">x</div>
+
+      <div class="hibernating">x</div>
+      <div class="hibernating">x</div>
+      <div class="need-attention">x</div>
+      <div class="promising">x</div>
+      <div class="new">x</div>
+    </div>
+
+    <div></div>
+    <div>
+      <div class="axis-scale-x grid grid-cols-5 gap-[2px]">
+        <div class="bg-purple-400">1</div>
+        <div class="bg-purple-400">2</div>
+        <div class="bg-purple-400">3</div>
+        <div class="bg-purple-400">4</div>
+        <div class="bg-purple-400">5</div>
+      </div>
+      <div class="axis-title-x">Recency (days)</div>
+    </div> <!-- x-axis -->
+  </div>
+
   <div class="mb-8"><%= @data2.inspect %></div>
   <div id="rfm-grid" style="width:100%; max-width:720px;height:400px;"></div>
 

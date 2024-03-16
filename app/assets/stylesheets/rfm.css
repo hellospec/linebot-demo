@@ -1,0 +1,78 @@
+.axis-title-y {
+  writing-mode: tb-rl;
+  transform: rotate(180deg);
+  padding-left: 20px;
+}
+
+.axis-scale-y {
+}
+
+.axis-title-x {
+  text-align: center;
+}
+
+.axis-scale-x {
+  text-align: center;
+}
+
+.champion {
+  background-color: #07c9d6;
+  grid-area: champion;
+}
+
+.royal {
+  background-color: #08a8f0;
+  grid-area: royal;
+  &:hover { background-color: black; }
+}
+
+.cant-lose {
+  background-color: #fcbe24;
+  grid-area: cant-lose;
+}
+
+.risk {
+  background-color: #fda5a5;
+  grid-area: risk;
+}
+
+.sleep {
+  background-color: #ef4444;
+  grid-area: sleep;
+}
+
+.potential-royal {
+  background-color: #10b981;
+  grid-area: potential-royal;
+}
+
+.hibernating {
+  background-color: #a6b5fb;
+  grid-area: hibernating;
+}
+
+.need-attention {
+  background-color: #f97315;
+  grid-area: need-attention;
+}
+
+.promising {
+  background-color: #f59e0c;
+  grid-area: promising;
+}
+
+.new {
+  background-color: #6de7b7;
+  grid-area: new;
+}
+
+.rfm-grid {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  grid-template-areas: 
+    "cant-lose   cant-lose   royal          royal           champion"
+    "risk        risk        royal          royal           champion"
+    "risk        risk        sleep          potential-royal potential-royal"
+    "hibernating hibernating need-attention potential-royal potential-royal"
+    "hibernating hibernating need-attention promising new";
+}
