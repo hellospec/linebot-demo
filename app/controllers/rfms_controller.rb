@@ -6,6 +6,8 @@ class RfmsController < ApplicationController
     @data = transform_data(csv_data)
     @data2 = build_customer_group(@data)
     @data2 = map_customer_group_attributes(@data2)
+
+    @all_customers = @data2.values.sum { |d| d[:customers] }
   end
 
   private
@@ -86,7 +88,7 @@ class RfmsController < ApplicationController
       promising
       need_attention
       need_attention_2
-      about_to_sleep
+      sleep
       cant_lose
       risk
       hibernating
@@ -149,9 +151,9 @@ class RfmsController < ApplicationController
         result[:need_attention_2][:position_y] = [0, 2]
 
       elsif (3..3).include?(r) and (3..3).include?(avrg_fm)
-        result[:about_to_sleep][:data] << d
-        result[:about_to_sleep][:position_x] = [2, 3]
-        result[:about_to_sleep][:position_y] = [2, 3]
+        result[:sleep][:data] << d
+        result[:sleep][:position_x] = [2, 3]
+        result[:sleep][:position_y] = [2, 3]
 
       elsif (1..2).include?(r) and (5..5).include?(avrg_fm)
         result[:cant_lose][:data] << d
@@ -192,7 +194,7 @@ class RfmsController < ApplicationController
 
   def map_customer_group_attributes(data)
     all_customers = @data.size
-    data.map do |k,v|
+    data.transform_values do |v|
       sum_customers = v[:data].size
       sum_order_count = v[:data].sum { |d| d[:order_count] }
 
@@ -205,7 +207,6 @@ class RfmsController < ApplicationController
       spent_per_customer = sum_total_amount == 0 ? 0 : (sum_total_amount / sum_customers.to_f).round(2)
 
       {
-        group: k,
         customers: sum_customers,
         percentage: percentage,
         days: days,

@@ -26,7 +26,7 @@
   &:hover { background-color: black; }
 }
 
-.cant-lose {
+.cant_lose {
   background-color: #fcbe24;
   grid-area: cant-lose;
 }
@@ -41,7 +41,7 @@
   grid-area: sleep;
 }
 
-.potential-royal {
+.potential_royal {
   background-color: #10b981;
   grid-area: potential-royal;
 }
@@ -51,7 +51,7 @@
   grid-area: hibernating;
 }
 
-.need-attention {
+.need_attention {
   background-color: #f97315;
   grid-area: need-attention;
 }
@@ -66,8 +66,36 @@
   grid-area: new;
 }
 
+.champion, .royal, .cant_lose,
+.risk, .sleep, .potential_royal,
+.hibernating, .need_attention, .promising, .new {
+  position: relative;
+}
+.champion:before, .royal:before, .cant_lose:before,
+.risk:before, .sleep:before, .potential_royal:before,
+.hibernating:before, .need_attention:before, .promising:before, .new:before {
+  content: attr(data-percentage);
+  position: absolute;
+  top: 4px;
+  right: 12px;
+  color: #2E2E2E;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.champion:after, .royal:after, .cant_lose:after,
+.risk:after, .sleep:after, .potential_royal:after,
+.hibernating:after, .need_attention:after, .promising:after, .new:after {
+  content: attr(data-customers);
+  position: absolute;
+  top: 36px;
+  right: 12px;
+  color: #2E2E2E;
+}
+
 .rfm-grid {
   display: grid;
+  grid-gap: 2px;
   grid-template-columns: repeat(5,1fr);
   grid-template-areas: 
     "cant-lose   cant-lose   royal          royal           champion"
@@ -75,4 +103,7 @@
     "risk        risk        sleep          potential-royal potential-royal"
     "hibernating hibernating need-attention potential-royal potential-royal"
     "hibernating hibernating need-attention promising new";
+}
+:popover-open {
+  position
 }

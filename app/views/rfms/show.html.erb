@@ -1,66 +1,94 @@
 <section id="rfm" 
   data-controller="rfm"
-  data-rfm-data-value="<%= @data.to_json %>"
+  data-rfm-data-value="<%= @data2.to_json %>"
   >
 
   <div class="mb-8"><%= @data[0] %></div>
 
-  <div id="rfm-css-chart" class="grid grid-cols-[100px_1fr] max-w-[860px] mb-8">
-    <div class="flex justify-end">
-      <div class="axis-title-y">Frequency + Monetary (orders + revenue)</div>
-      <div class="axis-scale-y grid gap-[2px]">
-        <div class="bg-blue-400 p-2">5</div>
-        <div class="bg-blue-400 p-2">4</div>
-        <div class="bg-blue-400 p-2">3</div>
-        <div class="bg-blue-400 p-2">2</div>
-        <div class="bg-blue-400 p-2">1</div>
-      </div>
-    </div> <!-- y-axis -->
-
-    <div class="rfm-grid">
-      <div class="cant-lose">y</div>
-      <div class="cant-lose">y</div>
-      <div class="royal">y</div>
-      <div class="royal">y</div>
-      <div class="champion">y</div>
-
-      <div class="risk">x</div>
-      <div class="risk">x</div>
-      <div class="royal">x</div>
-      <div class="royal">x</div>
-      <div class="champion">x</div>
-
-      <div class="risk">y</div>
-      <div class="risk">y</div>
-      <div class="sleep">y</div>
-      <div class="potential-royal">y</div>
-      <div class="potential-royal">y</div>
-
-      <div class="hibernating">x</div>
-      <div class="hibernating">x</div>
-      <div class="need-attention">x</div>
-      <div class="potential-royal">x</div>
-      <div class="potential-royal">x</div>
-
-      <div class="hibernating">x</div>
-      <div class="hibernating">x</div>
-      <div class="need-attention">x</div>
-      <div class="promising">x</div>
-      <div class="new">x</div>
+  <div id="rfm-css-chart-wrapper" class="max-w-[860px] mb-8">
+    <div class="title text-right mb-4"> 
+      <div class="text-4xl font-bold"><%= number_with_delimiter(@all_customers) %></div>
+      <div>customers</div>
     </div>
 
-    <div></div>
-    <div>
-      <div class="axis-scale-x grid grid-cols-5 gap-[2px]">
-        <div class="bg-purple-400">1</div>
-        <div class="bg-purple-400">2</div>
-        <div class="bg-purple-400">3</div>
-        <div class="bg-purple-400">4</div>
-        <div class="bg-purple-400">5</div>
+    <div id="cant_lose" popover><%= @data2[:cant_lose].inspect %></div>
+    <div id="rfm-css-chart" class="grid grid-cols-[100px_1fr]">
+      <div class="flex justify-end">
+        <div class="axis-title-y">Frequency + Monetary (orders + revenue)</div>
+        <div class="axis-scale-y grid gap-[2px]">
+          <div class="bg-blue-400 p-2">5</div>
+          <div class="bg-blue-400 p-2">4</div>
+          <div class="bg-blue-400 p-2">3</div>
+          <div class="bg-blue-400 p-2">2</div>
+          <div class="bg-blue-400 p-2">1</div>
+        </div>
+      </div> <!-- y-axis -->
+
+      <div class="rfm-grid">
+        <button class="cant_lose" popovertarget="cant_lose" data-action="click->rfm#showInfo"></button>
+        <button class="cant_lose" popovertarget="cant_lose" 
+          data-action="click->rfm#showInfo" 
+          data-percentage="<%= @data2[:cant_lose][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:cant_lose][:customers]) %>"></button>
+        <button class="royal" data-action="click->rfm#showInfo"></button>
+        <button class="royal" data-action="click->rfm#showInfo"></button>
+        <button class="champion" data-action="click->rfm#showInfo"></button>
+
+        <div class="risk" data-action="click->rfm#showInfo"></div>
+        <div class="risk" data-action="click->rfm#showInfo"></div>
+        <div class="royal" data-action="click->rfm#showInfo"></div>
+        <div class="royal" 
+          data-action="click->rfm#showInfo" 
+          data-percentage="<%= @data2[:royal][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:royal][:customers]) %>"></div>
+        <div class="champion" 
+          data-action="click->rfm#showInfo"
+          data-percentage="<%= @data2[:champion][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:champion][:customers]) %>"></div>
+        <div class="risk"></div>
+        <div class="risk" 
+          data-percentage="<%= @data2[:risk][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:risk][:customers]) %>"></div>
+        <div class="sleep"
+          data-percentage="<%= @data2[:sleep][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:sleep][:customers]) %>"></div>
+        <div class="potential_royal"></div>
+        <div class="potential_royal"></div>
+        <div class="hibernating"></div>
+        <div class="hibernating"></div>
+        <div class="need_attention"></div>
+        <div class="potential_royal"></div>
+        <div class="potential_royal" 
+          data-percentage="<%= @data2[:potential_royal][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:potential_royal][:customers]) %>"></div>
+        <div class="hibernating"></div>
+        <div class="hibernating" 
+          data-percentage="<%= @data2[:hibernating][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:hibernating][:customers]) %>"></div>
+        <div class="need_attention"
+          data-percentage="<%= @data2[:need_attention][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:need_attention][:customers]) %>"></div>
+        <div class="promising" 
+          data-percentage="<%= @data2[:promising][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:promising][:customers]) %>"></div>
+        <div class="new" 
+          data-percentage="<%= @data2[:new][:percentage] %>%"
+          data-customers="<%= number_with_delimiter(@data2[:new][:customers]) %>"></div>
       </div>
-      <div class="axis-title-x">Recency (days)</div>
-    </div> <!-- x-axis -->
-  </div> <!-- rfm-grid -->
+
+      <div></div>
+      <div>
+        <div class="axis-scale-x grid grid-cols-5 gap-[2px]">
+          <div class="bg-purple-400">1</div>
+          <div class="bg-purple-400">2</div>
+          <div class="bg-purple-400">3</div>
+          <div class="bg-purple-400">4</div>
+          <div class="bg-purple-400">5</div>
+        </div>
+        <div class="axis-title-x">Recency (days)</div>
+      </div> <!-- x-axis -->
+    </div> <!-- rfm-grid -->
+  </div> <!-- rfm-css-chart-wrapper -->
 
   <div id="rfm-details" class="mb-8">
     <div class="grid grid-cols-5 max-w-[720px] mb-2 pb-2 border-b border-b-gray-300 text-sm">
@@ -71,9 +99,9 @@
       <div class="text-right">M <br>(spent/customer)</div>
     </div> <!-- header -->
 
-  <% @data2.each do |d| %>
+  <% @data2.each do |group_name, d| %>
     <div class="grid grid-cols-5 max-w-[720px]">
-      <div><%= d[:group].to_s.humanize %></div>
+      <div><%= group_name.to_s.humanize %></div>
       <div class="text-right"><%= d[:customers] %></div>
       <div class="text-right"><%= d[:days] %></div>
       <div class="text-right"><%= d[:orders_per_customer] %></div>
