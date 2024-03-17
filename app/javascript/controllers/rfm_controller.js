@@ -3,15 +3,27 @@ import { Controller } from "@hotwired/stimulus"
 import * as echarts from "echarts"
 
 export default class RfmController extends Controller {
-  static targets = []
+  static targets = ["popoverCantLose", "rfmCells"]
   static values = { 
-    data: Object 
+    data: Object
   }
 
   connect() {
-    this.renderRfmGrid()
+    // this.renderRfmGrid()
     console.log('connect to rfm controller')
     console.log(this.dataValue)
+  }
+
+  highlight(event) {
+    this.rfmCellsTarget.querySelectorAll(".cell").forEach(c => c.classList.add("drop-cell"))
+    event.currentTarget.classList.remove("drop-cell")
+  }
+
+  showInfo(event) {
+  }
+
+  getCustomerGroup(name) {
+    return this.dataValue[name]
   }
 
   renderRfmGrid() {
@@ -19,7 +31,6 @@ export default class RfmController extends Controller {
     if(container == null) { return }
 
     let chart = window.echarts.init(container);
-
 
     // prettier-ignore
     const hours = [
