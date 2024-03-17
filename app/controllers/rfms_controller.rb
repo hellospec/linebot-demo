@@ -195,6 +195,10 @@ class RfmsController < ApplicationController
     data.map do |k,v|
       sum_customers = v[:data].size
       sum_order_count = v[:data].sum { |d| d[:order_count] }
+
+      # the last of recent day the customer spent with in this group
+      days = sum_customers == 0 ? 0 : sort_data_for("days", v[:data], false)[0][:days]
+
       sum_total_amount = v[:data].sum { |d| d[:sum_total_amount] }
       percentage = (sum_customers * 100.0 / all_customers).round(2)
       order_per_customer = sum_customers == 0 ? 0 : (sum_order_count / sum_customers.to_f).round(2)
@@ -204,6 +208,7 @@ class RfmsController < ApplicationController
         group: k,
         customers: sum_customers,
         percentage: percentage,
+        days: days,
         orders_per_customer: order_per_customer,
         spent_per_customer: spent_per_customer,
         position_x: v[:position_x],
