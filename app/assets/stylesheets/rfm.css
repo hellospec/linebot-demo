@@ -1,7 +1,7 @@
 .axis-title-y {
   writing-mode: tb-rl;
   transform: rotate(180deg);
-  padding-left: 20px;
+  margin: 0 auto;
 }
 
 .axis-scale-y {

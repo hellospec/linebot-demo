@@ -4,22 +4,29 @@
   data-rfm-data2-value="<%= @data2.to_json %>"
   >
 
-  <div id="rfm-css-chart-wrapper" class="max-w-[860px] mb-8">
-    <div class="title text-right mb-4"> 
-      <div class="text-4xl font-bold"><%= number_with_delimiter(@all_customers) %></div>
-      <div>customers</div>
-    </div>
+
+  <div id="rfm-css-chart-wrapper" class="mb-8 w-[735px]">
+    <div class="rfm-title flex gap-8 justify-between mb-4">
+      <div class="mb-4 w-[75%]">
+        <h1 class="font-medium text-2xl mb-4">RFM Segments</h1>
+        <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti, ratione aliquid voluptatum sapiente maxime inventore atque, debitis fugiat a impedit officiis.</p>
+      </div>
+      <div class="title-customer text-right mb-4"> 
+        <div class="text-4xl font-bold"><%= number_with_delimiter(@all_customers) %></div>
+        <div>customers</div>
+      </div>
+    </div> <!-- title -->
 
     <div id="cant_lose" popover><%= @data2[:cant_lose].inspect %></div>
-    <div id="rfm-css-chart" class="grid grid-cols-[100px_1fr]">
-      <div class="flex justify-end">
-        <div class="axis-title-y">Frequency + Monetary (orders + revenue)</div>
-        <div class="axis-scale-y grid gap-[2px]">
-          <div class="bg-blue-400 p-2">5</div>
-          <div class="bg-blue-400 p-2">4</div>
-          <div class="bg-blue-400 p-2">3</div>
-          <div class="bg-blue-400 p-2">2</div>
-          <div class="bg-blue-400 p-2">1</div>
+    <div id="rfm-css-chart" class="grid grid-cols-[75px_1fr] h-[435px] w-[735px]">
+      <div class="flex justify-end font-semibold">
+        <div class="text-[14px] text-center axis-title-y">Frequency + Monetary (orders + revenue)</div>
+        <div class="text-[17.5px] axis-scale-y grid gap-[2px] items-center">
+          <div class="pr-4">5</div>
+          <div class="pr-4">4</div>
+          <div class="pr-4">3</div>
+          <div class="pr-4">2</div>
+          <div class="pr-4">1</div>
         </div>
       </div> <!-- y-axis -->
 
@@ -93,15 +100,15 @@
       </div>
 
       <div></div>
-      <div>
-        <div class="axis-scale-x grid grid-cols-5 gap-[2px]">
-          <div class="bg-purple-400">1</div>
-          <div class="bg-purple-400">2</div>
-          <div class="bg-purple-400">3</div>
-          <div class="bg-purple-400">4</div>
-          <div class="bg-purple-400">5</div>
+      <div class="font-semibold">
+        <div class="axis-scale-x text-[17.5px] grid grid-cols-5 gap-[2px] justify-center">
+          <div class="p-2">1</div>
+          <div class="p-2">2</div>
+          <div class="p-2">3</div>
+          <div class="p-2">4</div>
+          <div class="p-2">5</div>
         </div>
-        <div class="axis-title-x">Recency (days)</div>
+        <div class="text-[14px] text-center axis-title-x">Recency (days)</div>
       </div> <!-- x-axis -->
     </div> <!-- rfm-grid -->
   </div> <!-- rfm-css-chart-wrapper -->

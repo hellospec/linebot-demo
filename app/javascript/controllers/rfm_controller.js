@@ -1,7 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 
-import * as echarts from "echarts"
-
 export default class RfmController extends Controller {
   static targets = ["popoverCantLose", "rfmCells", "listItemDetail"]
   static values = { 
@@ -10,9 +8,7 @@ export default class RfmController extends Controller {
   }
 
   connect() {
-    // this.renderRfmGrid()
     console.log('connect to rfm controller')
-    // console.log(this.dataValue)
   }
 
   highlight(cell) {
@@ -46,11 +42,5 @@ export default class RfmController extends Controller {
 
   getCustomerGroup(name) {
     return this.data2Value[name]
-  }
-
-  renderRfmGrid() {
-    let container = document.getElementById("rfm-grid")
-    if(container == null) { return }
-
   }
 }
