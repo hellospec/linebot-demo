@@ -95,83 +95,45 @@ class RfmsController < ApplicationController
     )
   end
 
-  # [
-  # {:group=>:champion, :customers=>11, :percentage=>11.0, :orders_per_customer=>4.73, :spent_per_customer=>5935.18}, 
-  # {:group=>:royal, :customers=>16, :percentage=>16.0, :orders_per_customer=>4.31, :spent_per_customer=>5472.5},
-  # {:group=>:potential_royal, :customers=>17, :percentage=>17.0, :orders_per_customer=>2.59, :spent_per_customer=>3008.71}, 
-  # {:group=>:new, :customers=>3, :percentage=>3.0, :orders_per_customer=>1.0, :spent_per_customer=>1457.0}, 
-  # {:group=>:promising, :customers=>0, :percentage=>0.0, :orders_per_customer=>0, :spent_per_customer=>0}, 
-  # {:group=>:need_attention, :customers=>9, :percentage=>9.0, :orders_per_customer=>1.22, :spent_per_customer=>1675.44}, 
-  # {:group=>:need_attention_2, :customers=>5, :percentage=>5.0, :orders_per_customer=>3.2, :spent_per_customer=>3616.8}, 
-  # {:group=>:about_to_sleep, :customers=>0, :percentage=>0.0, :orders_per_customer=>0, :spent_per_customer=>0}, 
-  # {:group=>:cant_loose, :customers=>5, :percentage=>5.0, :orders_per_customer=>6.0, :spent_per_customer=>7679.8}, 
-  # {:group=>:risk, :customers=>6, :percentage=>6.0, :orders_per_customer=>3.0, :spent_per_customer=>4202.17}, 
-  # {:group=>:hibernating, :customers=>28, :percentage=>28.0, :orders_per_customer=>1.43, :spent_per_customer=>1636.89}]
-
   def build_customer_group(data)
     result = {}
     customer_group_name.each { |g| result[g.to_sym] = {data: [], customers: 0} }
     data.each do |d|
-      avrg_fm = ((d[:f_score] + d[:m_score])/2.0).round(1)
-      r = d[:r_score]..d[:r_score]
+      fm = ((d[:f_score] + d[:m_score])/2.0).round(1)
+      r = d[:r_score]
 
-      if (5..5).include?(r) and (4..5).include?(avrg_fm)
+      if (4 < r && r <= 5) and (3 < fm && fm <= 5)
         result[:champion][:data] << d
-        result[:champion][:position_x] = [4, 5]
-        result[:champion][:position_y] = [3, 5]
 
-      elsif (3..4).include?(r) and (4..5).include?(avrg_fm)
+      elsif (2 < r && r <= 4) and (3 < fm && fm <= 5)
         result[:royal][:data] << d
-        result[:royal][:position_x] = [2, 4]
-        result[:royal][:position_y] = [3, 5]
 
-      elsif (4..5).include?(r) and (2..3.5).include?(avrg_fm)
-        result[:potential_royal][:data] << d
-        result[:potential_royal][:position_x] = [3, 5]
-        result[:potential_royal][:position_y] = [1, 3]
-
-      elsif (5..5).include?(r) and (1..2).include?(avrg_fm)
-        result[:new][:data] << d
-        result[:new][:position_x] = [4, 5]
-        result[:new][:position_y] = [0, 1]
-
-      elsif (4..4).include?(r) and (1..1).include?(avrg_fm)
-        result[:promising][:data] << d
-        result[:promising][:position_x] = [3, 4]
-        result[:promising][:position_y] = [0, 1]
-
-      elsif (3..3).include?(r) and (1..2.5).include?(avrg_fm)
-        result[:need_attention][:data] << d
-        result[:need_attention][:position_x] = [2, 3]
-        result[:need_attention][:position_y] = [0, 2]
-
-      elsif (3..3).include?(r) and (3..4).include?(avrg_fm)
-        result[:need_attention_2][:data] << d
-        result[:need_attention_2][:position_x] = [2, 3]
-        result[:need_attention_2][:position_y] = [0, 2]
-
-      elsif (3..3).include?(r) and (3..3).include?(avrg_fm)
-        result[:sleep][:data] << d
-        result[:sleep][:position_x] = [2, 3]
-        result[:sleep][:position_y] = [2, 3]
-
-      elsif (1..2).include?(r) and (5..5).include?(avrg_fm)
+      elsif (0 < r && r <= 2) and (4 < fm && fm <= 5)
         result[:cant_lose][:data] << d
-        result[:cant_lose][:position_x] = [0, 2]
-        result[:cant_lose][:position_y] = [4, 5]
 
-      elsif (1..2).include?(r) and (3..4).include?(avrg_fm)
+      elsif (0 < r && r <= 2) and (2 < fm && fm <= 4)
         result[:risk][:data] << d
-        result[:risk][:position_x] = [0, 2]
-        result[:risk][:position_y] = [2, 4]
 
-      elsif (1..2).include?(r) and (1..2.5).include?(avrg_fm)
+      elsif (2 < r && r <= 3) and (2 < fm && fm <= 3)
+        result[:sleep][:data] << d
+
+      elsif (3 < r && r <= 5) and (1 < fm && fm <= 3)
+        result[:potential_royal][:data] << d
+
+      elsif (0 < r && r <= 2) and (0 < fm && fm <= 2)
         result[:hibernating][:data] << d
-        result[:hibernating][:position_x] = [0, 2]
-        result[:hibernating][:position_y] = [0, 2]
+
+      elsif (2 < r && r <= 3) and (0 < fm && fm <= 2)
+        result[:need_attention][:data] << d
+
+      elsif (3 < r && r <= 4) and (0 < fm && fm <= 1)
+        result[:promising][:data] << d
+
+      elsif (4 < r && r <= 5) and (0 < fm && fm <= 1)
+        result[:new][:data] << d
 
       else
-        debugger
+        # debugger
       end
     end
 
