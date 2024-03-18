@@ -69,17 +69,7 @@
   position: relative;
   opacity: 1.0;
 }
-/*
-.champion, .royal, .cant_lose,
-.risk, .sleep, .potential_royal,
-.hibernating, .need_attention, .promising, .new {
-  position: relative;
-  opacity: 1.0;
-}
-*/
-.champion:before, .royal:before, .cant_lose:before,
-.risk:before, .sleep:before, .potential_royal:before,
-.hibernating:before, .need_attention:before, .promising:before, .new:before {
+.cell:before {
   content: attr(data-percentage);
   position: absolute;
   top: 4px;
@@ -88,10 +78,7 @@
   font-size: 24px;
   font-weight: 700;
 }
-
-.champion:after, .royal:after, .cant_lose:after,
-.risk:after, .sleep:after, .potential_royal:after,
-.hibernating:after, .need_attention:after, .promising:after, .new:after {
+.cell:after {
   content: attr(data-customers);
   position: absolute;
   top: 36px;
@@ -115,4 +102,14 @@
 }
 :popover-open {
   position
+}
+
+.item-detail {
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+}
+.list-item-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2E2E2E;
 }

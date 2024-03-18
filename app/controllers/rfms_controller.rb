@@ -4,8 +4,8 @@ class RfmsController < ApplicationController
   def show
     csv_data = CSV.read("db/rfm_sample.csv", headers: true)
     @data = transform_data(csv_data)
-    @data2 = build_customer_group(@data)
-    @data2 = map_customer_group_attributes(@data2)
+    @data1 = build_customer_group(@data)
+    @data2 = map_customer_group_attributes(@data1)
 
     @all_customers = @data2.values.sum { |d| d[:customers] }
   end
