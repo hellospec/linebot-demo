@@ -87,7 +87,6 @@ class RfmsController < ApplicationController
       new
       promising
       need_attention
-      need_attention_2
       sleep
       cant_lose
       risk
