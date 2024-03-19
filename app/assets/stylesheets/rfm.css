@@ -79,11 +79,14 @@
 .item-detail {
   display: grid;
   grid-template-columns: repeat(6,1fr);
+  margin-bottom: 0.5rem;
+  color: #454545;
 }
 .list-item-title {
   font-size: 24px;
   font-weight: 700;
-  color: #2E2E2E;
+  color: #454545;
+  margin-bottom: 1rem;
 }
 
 #rfm-table {
