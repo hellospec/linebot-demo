@@ -2,12 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class RfmTableController extends Controller {
   static targets = ["sectionR", "sectionF", "sectionM"]
-  static values = { 
-  }
-
-  connect() {
-    console.log('connect to rfm-table controller')
-  }
 
   viewSection(event) {
     let targetName = event.params.section + "Target"

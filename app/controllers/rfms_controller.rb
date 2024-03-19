@@ -132,25 +132,11 @@ class RfmsController < ApplicationController
         result[:new][:data] << d
 
       else
-        # debugger
+        raise "Huh? something wrong about rfm segmentation?"
       end
     end
 
     result
-    # [
-    #   {
-    #     group: "champion",
-    #     percentage: 7,
-    #     customers: 504,
-    #     days_since_last_order: 5,
-    #     orders_per_customer: 12.50,
-    #     average_ltr_per_customer: 3421.45,
-    #     x_position: [5,5],
-    #     y_position: [4,5]
-    #   },
-    #   {..},
-    #   {..},
-    # ]
   end
 
   def map_customer_group_attributes(data)

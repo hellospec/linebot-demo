@@ -7,10 +7,6 @@ export default class RfmController extends Controller {
     data2: Object
   }
 
-  connect() {
-    console.log('connect to rfm controller')
-  }
-
   highlight(cell) {
     this.rfmCellsTarget.querySelectorAll(".cell").forEach(c => c.classList.add("drop-cell"))
     cell.classList.remove("drop-cell")
