@@ -97,6 +97,6 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   config.hosts = [
     "localhost",
-    "dashboard-demo.hellospec.work"
+    ENV["APP_URL"]
   ]
 end
