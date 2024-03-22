@@ -1,0 +1,14 @@
+<turbo-frame id="rfm-upload">
+  <div id="rfm-upload-form">
+    <%= form_with scope: "rfm_upload", url: rfm_uploads_path do |f| %>
+      <div class="field">
+        <label>เลือกไฟล์</label>
+        <%= f.file_field :file, accept: "text/csv" %>
+      </div>
+      <div class="field">
+        <%= f.submit "Upload RFM report" %>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>
+

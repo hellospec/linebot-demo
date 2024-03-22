@@ -1,0 +1,2 @@
+class RfmUpload < ApplicationRecord
+end
