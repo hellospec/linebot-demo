@@ -97,6 +97,6 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   config.hosts = [
     "localhost",
-    ENV["APP_URL"]
+    ENV["APP_HOST"]
   ]
 end
