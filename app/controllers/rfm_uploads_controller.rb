@@ -1,4 +1,8 @@
 class RfmUploadsController < ApplicationController
+  def index
+    @rfm_uploads = RfmUpload.all
+  end
+
   def new
   end
 

@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   resource :dashboard
   resource :rfm
-  resources :rfm_uploads, only: [:new, :create]
+  resources :rfm_uploads
   resources :products, only: [:index, :show]
 
   mount ActionCable.server => "/cable"
