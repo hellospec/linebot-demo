@@ -111,10 +111,15 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
+    et-orbi (1.2.11)
+      tzinfo
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
+    fugit (1.9.0)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -176,6 +181,7 @@ GEM
     public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.7.3)
     rack (3.0.9)
     rack-session (2.0.0)
@@ -253,6 +259,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    solid_queue (0.3.0)
+      activejob (>= 7.1)
+      activerecord (>= 7.1)
+      concurrent-ruby (~> 1.2.2)
+      fugit (~> 1.9.0)
+      railties (>= 7.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -326,6 +338,7 @@ DEPENDENCIES
   rails (~> 7.1.3)
   redis (>= 4.0.1)
   selenium-webdriver
+  solid_queue
   sprockets-rails
   standard
   stimulus-rails

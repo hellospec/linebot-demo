@@ -94,3 +94,17 @@
   grid-template-columns: 180px 110px 250px;
   gap: 2rem;
 }
+
+#rfm-upload-form {
+  margin-bottom: 1.5rem;
+
+  input[type="submit"] {
+    color: white;
+    background-color: rgb(80 80 80);
+    border: 1px solid rgb(80 80 80);
+    border-radius: 99px;
+    padding: 0.25rem 1rem;
+    cursor: pointer;
+  }
+  .field { margin-bottom: 1rem; }
+}

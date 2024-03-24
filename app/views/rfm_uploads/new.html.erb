@@ -1,0 +1,19 @@
+<turbo-frame id="rfm-upload">
+  <div id="rfm-upload-form" 
+    data-controller="rfm-upload"
+    data-rfm-upload-filenames-value="<%= RfmUpload.pluck(:name).to_json %>"
+    >
+    <%= form_with scope: "rfm_upload", 
+          data: {"rfm-upload-target": "form"},
+          url: rfm_uploads_path do |f| %>
+      <div class="field">
+        <label>เลือกไฟล์</label>
+        <%= f.file_field :file, accept: "text/csv", data: {"rfm-upload-target": "fileField"} %>
+      </div>
+      <div class="field">
+        <%= f.submit "Upload RFM report", data: {action: "rfm-upload#upload"} %>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>
+

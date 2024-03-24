@@ -19,35 +19,41 @@ services:
     volumes:
     - redis_data:/var/lib/redis/data
 
-  app:
+  main_app: &main_app
     build:
       context: .
       dockerfile: ./Dockerfile
       args:
         DATABASE_URL: ${DATABASE_URL}
         DATABASE_NAME: ${DB_NAME}
-
-    ports:
-      - 3000:3000
-    command: ./bin/rails server -p 3000 -b 0.0.0.0
     environment:
       DATABASE_NAME: ${DB_NAME}
       DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: ${REDIS_URL}
     env_file:
       - .env
+
+  app:
+    <<: *main_app
+    ports:
+      - 3000:3000
+    command: ./bin/rails server -p 3000 -b 0.0.0.0
     logging:
       driver: "json-file"
       options:
         max-size: "8m"
         max-file: "10"
-
     depends_on:
       - db
       - redis
 
+  solid_queue:
+    <<: *main_app
+    command: bundle exec rake solid_queue:start
+    depends_on:
+      - db
+
 volumes:
   db_data:
   redis_data:
-
 
