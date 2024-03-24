@@ -1,6 +1,6 @@
-require "csv"
-
 class RfmUploadsController < ApplicationController
+  before_action :authenticate_sale_person
+
   def index
     @rfm_uploads = RfmUpload.all
   end
@@ -9,25 +9,15 @@ class RfmUploadsController < ApplicationController
   end
 
   def create
-    name = params[:rfm_upload][:file].original_filename
     uploaded_file = params[:rfm_upload][:file].tempfile
-    body = uploaded_file.read
+    csv_filename = params[:rfm_upload][:file].original_filename
+    csv_body = uploaded_file.read
 
-    rfm_upload = RfmUpload.new(name: name, body: body)
+    rfm_upload = RfmUpload.new(name: csv_filename, body: csv_body)
     if rfm_upload.save
-      # Run background job that extract item in the file and create
-      # each RfmOrder record
-      headers = %w(order_number order_date amount customer_name customer_phone)
-      table = CSV.parse(body, headers: true)
-
-      order_params = table.map do |row|
-        param = row.to_h.extract!(*headers)
-        param["rfm_upload_id"] = rfm_upload.id
-        param
-      end
-      RfmOrder.insert_all order_params
-
-      redirect_to rfm_path, status: :see_other
+      CreateRfmOrdersFromUploadJob.perform_later(rfm_upload.id, csv_body)
     end
+
+    redirect_to root_path, status: :see_other
   end
 end
