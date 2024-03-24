@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_24_024848) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_24_073317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_024848) do
     t.string "customer_phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "rfm_upload_id", null: false
+    t.index ["rfm_upload_id"], name: "index_rfm_orders_on_rfm_upload_id"
   end
 
   create_table "rfm_uploads", force: :cascade do |t|
@@ -77,6 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_024848) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "rfm_orders", "rfm_uploads"
   add_foreign_key "sales", "products"
   add_foreign_key "sales", "users"
 end
