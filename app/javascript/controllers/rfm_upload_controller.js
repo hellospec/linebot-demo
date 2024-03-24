@@ -19,11 +19,12 @@ export default class RfmUploadController extends Controller {
       return false
     }
 
-    let headers = ['order_id', 'order_date', 'total_amount', 'product_name', 'customer_id', 'customer_name', 'customer_nick_name', 'customer_phone_number']
+    let headers = ['order_number', 'order_date', 'amount', 'customer_name', 'customer_phone']
     Papa.parse(file, {
       complete: (results) => {
-        let isCorrectHeaders = JSON.stringify(results.data[0]) == JSON.stringify(headers)
-        if(isCorrectHeaders) {
+        // let isCorrectHeaders = JSON.stringify(results.data[0]) == JSON.stringify(headers)
+        let hasRequiredHeaders = headers.every(h => results.data[0].includes(h))
+        if(hasRequiredHeaders) {
           this.formTarget.submit()
         } else {
           console.log('oops!')

@@ -1,3 +1,5 @@
+require "csv"
+
 class RfmUploadsController < ApplicationController
   def index
     @rfm_uploads = RfmUpload.all
@@ -15,6 +17,12 @@ class RfmUploadsController < ApplicationController
     if rfm_upload.save
       # Run background job that extract item in the file and create
       # each RfmOrder record
+      headers = %i(order_number order_date amount customer_name customer_phone)
+      table = CSV.parse(body, headers: true)
+
+      order_params = table.map { |row| row.to_h.extract!(headers) }
+      RfmOrder.insert_all order_params
+
       redirect_to rfm_path, status: :see_other
     end
   end
