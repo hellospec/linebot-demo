@@ -5,9 +5,11 @@ one:
   amount: 1
   customer_name: MyString
   customer_phone: MyString
+  rfm_upload: one
 
 two:
   order_number: MyString
   amount: 1
   customer_name: MyString
   customer_phone: MyString
+  rfm_upload: two
