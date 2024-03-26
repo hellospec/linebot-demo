@@ -22,7 +22,7 @@ class ReplyLinebotTest < ActiveSupport::TestCase
     end
 
     test "ppx 100 200" do
-      assert match_message(message)
+      assert match_message("ppx 100 200")
     end
   end
 

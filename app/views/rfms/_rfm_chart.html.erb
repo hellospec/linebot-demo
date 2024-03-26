@@ -10,7 +10,6 @@
     </div>
   </div> <!-- title -->
 
-  <div id="cant_lose" popover><%= @data2[:cant_lose].inspect %></div>
   <div id="rfm-css-chart" class="grid grid-cols-[75px_1fr]">
     <div class="flex justify-end font-semibold">
       <div class="text-[14px] text-center axis-title-y">Frequency + Monetary (orders + revenue)</div>
@@ -28,8 +27,8 @@
       <button class="cell cant_lose" 
         data-group="cant_lose"
         data-action="click->rfm#showDetail" 
-        data-percentage="<%= @data2[:cant_lose][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:cant_lose][:customers]) %>"></button>
+        data-percentage="<%= @rfm_data[:cant_lose][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:cant_lose][:customers]) %>"></button>
       <button class="cell royal"></button>
       <button class="cell royal"></button>
       <button class="cell champion"></button>
@@ -40,24 +39,24 @@
       <div class="cell royal" 
         data-group="royal"
         data-action="click->rfm#showDetail" 
-        data-percentage="<%= @data2[:royal][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:royal][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:royal][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:royal][:customers]) %>"></div>
       <div class="cell champion" 
         data-group="champion"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:champion][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:champion][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:champion][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:champion][:customers]) %>"></div>
       <div class="cell risk"></div>
       <div class="cell risk" 
         data-group="risk"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:risk][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:risk][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:risk][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:risk][:customers]) %>"></div>
       <div class="cell sleep"
         data-group="sleep"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:sleep][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:sleep][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:sleep][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:sleep][:customers]) %>"></div>
       <div class="cell potential_royal"></div>
       <div class="cell potential_royal"></div>
       <div class="cell hibernating"></div>
@@ -67,29 +66,29 @@
       <div class="cell potential_royal" 
         data-group="potential_royal"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:potential_royal][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:potential_royal][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:potential_royal][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:potential_royal][:customers]) %>"></div>
       <div class="cell hibernating"></div>
       <div class="cell hibernating" 
         data-group="hibernating"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:hibernating][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:hibernating][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:hibernating][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:hibernating][:customers]) %>"></div>
       <div class="cell need_attention"
         data-group="need_attention"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:need_attention][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:need_attention][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:need_attention][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:need_attention][:customers]) %>"></div>
       <div class="cell promising" 
         data-group="promising"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:promising][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:promising][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:promising][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:promising][:customers]) %>"></div>
       <div class="cell new" 
         data-group="new"
         data-action="click->rfm#showDetail"
-        data-percentage="<%= @data2[:new][:percentage] %>%"
-        data-customers="<%= number_with_delimiter(@data2[:new][:customers]) %>"></div>
+        data-percentage="<%= @rfm_data[:new][:percentage] %>%"
+        data-customers="<%= number_with_delimiter(@rfm_data[:new][:customers]) %>"></div>
     </div>
 
     <div></div>

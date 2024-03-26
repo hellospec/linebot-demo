@@ -1,6 +1,6 @@
 module ReplyLinebot
   def match_message(message)
-    message.downcase.match(/^ppx\s+(\d{1,})\b/)
+    message.to_s.downcase.match(/^ppx\s+(\d{1,})\b/)
   end
 
   def handle_message(message)

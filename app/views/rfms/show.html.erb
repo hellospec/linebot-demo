@@ -1,8 +1,7 @@
 <section id="rfm" 
   data-controller="rfm"
-  data-rfm-data1-value="<%= @data1.to_json %>"
-  data-rfm-data2-value="<%= @data2.to_json %>"
-  >
+  data-rfm-group-data-value="<%= @group_data.to_json %>"
+  data-rfm-rfm-data-value="<%= @rfm_data.to_json %>">
 
   <div class="grid grid-cols-2 mb-8">
     <%= render partial: "rfms/rfm_chart" %>

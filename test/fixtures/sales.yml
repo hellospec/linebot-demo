@@ -4,12 +4,10 @@ one:
   user: user1
   amount: 1
   sale_person_line_id: MyString
-  product_code: MyString
   channel_code: MyString
 
 two:
   user: user1
   amount: 1
   sale_person_line_id: MyString
-  product_code: MyString
   channel_code: MyString

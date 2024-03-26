@@ -15,7 +15,7 @@ class RfmUploadsController < ApplicationController
 
     rfm_upload = RfmUpload.new(name: csv_filename, body: csv_body)
     if rfm_upload.save
-      CreateRfmOrdersFromUploadJob.perform_later(rfm_upload.id, csv_body)
+      CreateRfmOrdersFromUploadJob.perform_later(rfm_upload.id)
     end
 
     redirect_to root_path, status: :see_other
