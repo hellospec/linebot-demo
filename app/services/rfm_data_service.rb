@@ -1,5 +1,5 @@
 class RfmDataService
-  attr_reader :data
+  attr_reader :base_data, :group_data, :rfm_data
 
   def initialize(from: Date.today, to: (Date.today - 30.days))
     @all_orders = RfmOrder.all
@@ -7,9 +7,17 @@ class RfmDataService
   end
 
   def generate!
-    transform_data!
-    build_customer_group!
-    map_customer_group_attributes!
+    transform_data!                  # base_data
+    build_customer_group!            # group_data
+    map_customer_group_attributes!   # rfm_data
+  end
+
+  def data
+    rfm_data
+  end
+
+  def all_customers
+    base_data.size
   end
 
   private
@@ -17,25 +25,22 @@ class RfmDataService
   def transform_data!
     build_up_base_data
     add_days
-    @data = sort_data_for("days", data, "desc")
+    @base_data = sort_data_for("days", base_data, "desc")
     add_score_column("r")
 
-    @data = sort_data_for("order_count", data)
+    @base_data = sort_data_for("order_count", base_data)
     add_score_column("f")
 
-    @data = sort_data_for("sum_amount", data)
+    @base_data = sort_data_for("sum_amount", base_data)
     add_score_column("m")
-
-    @all_customers = @data.size
   end
 
   def build_up_base_data
     # Group the orders by customer_name and calculate order_count and sum_amount
-    @data = @all_orders.group_by(&:customer_name).map do |customer_name, orders|
+    @base_data = @all_orders.group_by(&:customer_name).map do |customer_name, orders|
       most_recent_order_date = orders.map { |o| o.order_date }.max.strftime('%Y-%m-%d')
       {
         order_count: orders.count,
-        # order_date: orders.max_by(&:order_date).order_date.strftime('%Y-%m-%d'),
         order_date: most_recent_order_date,
         sum_amount: orders.map(&:amount).reduce(:+),
         customer_name: customer_name,
@@ -45,7 +50,7 @@ class RfmDataService
   end
 
   def add_days
-    @data.each do |item|
+    @base_data.each do |item|
       days = (Date.parse(item[:order_date])..Date.today).count
       item[:days] = days
     end
@@ -65,17 +70,17 @@ class RfmDataService
 
   def percentile
     number_of_group = 5
-    number_of_records = @data.size
+    number_of_records = @base_data.size
     number_of_records / number_of_group
   end
 
   def add_score_column(score_name)
     new_column_name = :"#{score_name}_score"
     range = percentile
-    @data.each.with_index do |row, index|
+    @base_data.each.with_index do |row, index|
       n = index + 1
       case n
-      when n...range;                  row[new_column_name] = 1
+      when n...range;             row[new_column_name] = 1
       when range...(2*range);     row[new_column_name] = 2
       when (2*range)...(3*range); row[new_column_name] = 3
       when (3*range)...(4*range); row[new_column_name] = 4
@@ -103,7 +108,7 @@ class RfmDataService
   def build_customer_group!
     result = {}
     customer_group_name.each { |g| result[g.to_sym] = {data: [], customers: 0} }
-    data.each do |d|
+    base_data.each do |d|
       fm = ((d[:f_score] + d[:m_score])/2.0).round(1)
       r = d[:r_score]
 
@@ -142,11 +147,11 @@ class RfmDataService
       end
     end
 
-    @data = result
+    @group_data = result
   end
 
   def map_customer_group_attributes!
-    result = data.transform_values do |v|
+    result = group_data.transform_values do |v|
       sum_customers = v[:data].size
       sum_order_count = v[:data].sum { |d| d[:order_count] }
 
@@ -154,7 +159,7 @@ class RfmDataService
       days = sum_customers == 0 ? 0 : sort_data_for("days", v[:data], "desc")[0][:days]
 
       sum_total_amount = v[:data].sum { |d| d[:sum_amount] }
-      percentage = (sum_customers * 100.0 / @all_customers).round(2)
+      percentage = (sum_customers * 100.0 / all_customers).round(2)
       avrg_order_per_customer = sum_customers == 0 ? 0 : (sum_order_count / sum_customers.to_f).round(2)
       avrg_spent_per_customer = sum_total_amount == 0 ? 0 : (sum_total_amount / sum_customers.to_f).round(2)
 
@@ -167,6 +172,6 @@ class RfmDataService
       }
     end
 
-    @data = result
+    @rfm_data = result
   end
 end
