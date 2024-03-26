@@ -2,6 +2,8 @@ require "test_helper"
 
 class RfmDataServiceTest < ActiveSupport::TestCase
   setup do
+    travel_to Date.new(2024,03,25)
+
     # Need to manually create record instead of using fixture because
     # the fixture yml file is not handle a newline properly when we try
     # to load the string that contains newline '\n' from database
